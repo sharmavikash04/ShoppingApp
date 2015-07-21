@@ -1,0 +1,19 @@
+<ion-header-bar class="bar-calm">
+    <button class='button icon ion-arrow-left-a' ng-click='goToGallery()'></button>
+    <h1 class="title">My Orders</h1>
+</ion-header-bar>
+<ion-content>
+    <ion-list>
+        <div ng-repeat="order in orders">
+            <ion-item >
+              
+                {{order.name}}
+            </ion-item>
+         
+        </div>
+    </ion-list>
+
+  
+</ion-content>
+
+<ion-cart-footer path='checkoutPath'></ion-cart-footer>

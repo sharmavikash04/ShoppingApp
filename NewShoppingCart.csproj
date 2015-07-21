@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D0EF705C-4424-4BF8-BD59-68EF53B30BCE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NewShoppingCart</RootNamespace>
+    <AssemblyName>NewShoppingCart</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <TypeScriptToolsVersion>1.4</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\NewShoppingCart.dll" />
+    <Content Include="bin\NewShoppingCart.pdb" />
+    <Content Include="css\ion-shop-styles.css" />
+    <Content Include="HtmlPage1.html" />
+    <Content Include="img\departments\128.jpg" />
+    <Content Include="img\departments\134.jpg" />
+    <Content Include="img\departments\139.jpg" />
+    <Content Include="img\departments\143.jpg" />
+    <Content Include="img\departments\145.jpg" />
+    <Content Include="img\departments\3.jpg" />
+    <Content Include="img\departments\4.jpg" />
+    <Content Include="img\departments\9.jpg" />
+    <Content Include="img\departments\10.jpg" />
+    <Content Include="img\departments\2.jpg" />
+    <Content Include="img\departments\140.jpg" />
+    <Content Include="img\departments\142.jpg" />
+    <Content Include="img\departments\1.jpg" />
+    <Content Include="img\departments\5.jpg" />
+    <Content Include="img\departments\6.jpg" />
+    <Content Include="img\departments\7.jpg" />
+    <Content Include="img\departments\8.jpg" />
+    <Content Include="img\departments\deli.jpg" />
+    <Content Include="img\Home\1.jpg" />
+    <Content Include="img\Home\2.jpg" />
+    <Content Include="img\Home\3.jpg" />
+    <Content Include="img\Home\4.jpg" />
+    <Content Include="img\Home\5.jpg" />
+    <Content Include="img\Home\6.jpg" />
+    <Content Include="lib\angular-animate\.bower.json" />
+    <Content Include="lib\angular-animate\angular-animate.min.js.map" />
+    <Content Include="lib\angular-animate\bower.json" />
+    <Content Include="lib\angular-animate\package.json" />
+    <Content Include="lib\angular-animate\README.md" />
+    <Content Include="lib\angular-local-storage\.bower.json" />
+    <Content Include="lib\angular-local-storage\.bowerrc" />
+    <Content Include="lib\angular-local-storage\.gitattributes" />
+    <Content Include="lib\angular-local-storage\.gitignore" />
+    <Content Include="lib\angular-local-storage\.travis.yml" />
+    <Content Include="lib\angular-local-storage\bower.json" />
+    <Content Include="lib\angular-local-storage\CHANGELOG.md" />
+    <Content Include="lib\angular-local-storage\LICENSE" />
+    <Content Include="lib\angular-local-storage\package.json" />
+    <Content Include="lib\angular-local-storage\README.md" />
+    <Content Include="lib\angular-messages\.bower.json" />
+    <Content Include="lib\angular-messages\angular-messages.min.js.map" />
+    <Content Include="lib\angular-messages\bower.json" />
+    <Content Include="lib\angular-messages\package.json" />
+    <Content Include="lib\angular-messages\README.md" />
+    <Content Include="lib\angular-native-picker\.bower.json" />
+    <Content Include="lib\angular-native-picker\.gitattributes" />
+    <Content Include="lib\angular-native-picker\.gitignore" />
+    <Content Include="lib\angular-native-picker\.jshintrc" />
+    <Content Include="lib\angular-native-picker\bower.json" />
+    <Content Include="lib\angular-native-picker\LICENSE.md" />
+    <Content Include="lib\angular-native-picker\package.json" />
+    <Content Include="lib\angular-native-picker\README.md" />
+    <Content Include="lib\angular-native-picker\src\themes\base.date.less" />
+    <Content Include="lib\angular-native-picker\src\themes\base.less" />
+    <Content Include="lib\angular-native-picker\src\themes\base.time.less" />
+    <Content Include="lib\angular-native-picker\src\themes\classic.date.less" />
+    <Content Include="lib\angular-native-picker\src\themes\classic.less" />
+    <Content Include="lib\angular-native-picker\src\themes\classic.time.less" />
+    <Content Include="lib\angular-native-picker\src\themes\default.date.less" />
+    <Content Include="lib\angular-native-picker\src\themes\default.less" />
+    <Content Include="lib\angular-native-picker\src\themes\default.time.less" />
+    <Content Include="lib\angular-native-picker\src\themes\rtl.less" />
+    <Content Include="lib\angular-native-picker\src\themes\_variables.less" />
+    <Content Include="lib\angular-sanitize\.bower.json" />
+    <Content Include="lib\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="lib\angular-sanitize\bower.json" />
+    <Content Include="lib\angular-sanitize\package.json" />
+    <Content Include="lib\angular-sanitize\README.md" />
+    <Content Include="lib\angular-ui-router\.bower.json" />
+    <Content Include="lib\angular-ui-router\bower.json" />
+    <Content Include="lib\angular-ui-router\CHANGELOG.md" />
+    <Content Include="lib\angular-ui-router\CONTRIBUTING.md" />
+    <Content Include="lib\angular-ui-router\LICENSE" />
+    <Content Include="lib\angular-ui-router\README.md" />
+    <Content Include="lib\angular\.bower.json" />
+    <Content Include="lib\angular\angular.min.js.gzip" />
+    <Content Include="lib\angular\angular.min.js.map" />
+    <Content Include="lib\angular\bower.json" />
+    <Content Include="lib\angular\package.json" />
+    <Content Include="lib\angular\README.md" />
+    <Content Include="lib\ionic\.bower.json" />
+    <Content Include="lib\ionic\bower.json" />
+    <Content Include="lib\ionic\fonts\ionicons.eot" />
+    <Content Include="lib\ionic\fonts\ionicons.ttf" />
+    <Content Include="lib\ionic\fonts\ionicons.woff" />
+    <Content Include="lib\ionic\README.md" />
+    <Content Include="lib\ionic\scss\ionic.scss" />
+    <Content Include="lib\ionic\scss\ionicons\ionicons.scss" />
+    <Content Include="lib\ionic\scss\ionicons\_ionicons-animation.scss" />
+    <Content Include="lib\ionic\scss\ionicons\_ionicons-font.scss" />
+    <Content Include="lib\ionic\scss\ionicons\_ionicons-icons.scss" />
+    <Content Include="lib\ionic\scss\ionicons\_ionicons-variables.scss" />
+    <Content Include="lib\ionic\scss\_action-sheet.scss" />
+    <Content Include="lib\ionic\scss\_animations.scss" />
+    <Content Include="lib\ionic\scss\_backdrop.scss" />
+    <Content Include="lib\ionic\scss\_badge.scss" />
+    <Content Include="lib\ionic\scss\_bar.scss" />
+    <Content Include="lib\ionic\scss\_button-bar.scss" />
+    <Content Include="lib\ionic\scss\_button.scss" />
+    <Content Include="lib\ionic\scss\_checkbox.scss" />
+    <Content Include="lib\ionic\scss\_form.scss" />
+    <Content Include="lib\ionic\scss\_grid.scss" />
+    <Content Include="lib\ionic\scss\_items.scss" />
+    <Content Include="lib\ionic\scss\_list.scss" />
+    <Content Include="lib\ionic\scss\_loaders.scss" />
+    <Content Include="lib\ionic\scss\_loading.scss" />
+    <Content Include="lib\ionic\scss\_menu.scss" />
+    <Content Include="lib\ionic\scss\_mixins.scss" />
+    <Content Include="lib\ionic\scss\_modal.scss" />
+    <Content Include="lib\ionic\scss\_platform.scss" />
+    <Content Include="lib\ionic\scss\_popover.scss" />
+    <Content Include="lib\ionic\scss\_popup.scss" />
+    <Content Include="lib\ionic\scss\_progress.scss" />
+    <Content Include="lib\ionic\scss\_radio.scss" />
+    <Content Include="lib\ionic\scss\_range.scss" />
+    <Content Include="lib\ionic\scss\_refresher.scss" />
+    <Content Include="lib\ionic\scss\_reset.scss" />
+    <Content Include="lib\ionic\scss\_scaffolding.scss" />
+    <Content Include="lib\ionic\scss\_select.scss" />
+    <Content Include="lib\ionic\scss\_slide-box.scss" />
+    <Content Include="lib\ionic\scss\_spinner.scss" />
+    <Content Include="lib\ionic\scss\_split-pane.scss" />
+    <Content Include="lib\ionic\scss\_tabs.scss" />
+    <Content Include="lib\ionic\scss\_toggle.scss" />
+    <Content Include="lib\ionic\scss\_transitions.scss" />
+    <Content Include="lib\ionic\scss\_type.scss" />
+    <Content Include="lib\ionic\scss\_util.scss" />
+    <Content Include="lib\ionic\scss\_variables.scss" />
+    <Content Include="lib\jquery\.bower.json" />
+    <Content Include="lib\jquery\bower.json" />
+    <Content Include="lib\jquery\dist\jquery.min.map" />
+    <Content Include="lib\jquery\src\sizzle\dist\sizzle.min.map" />
+    <Content Include="lib\lodash\.bower.json" />
+    <Content Include="lib\lodash\bower.json" />
+    <Content Include="lib\ngAutocomplete\.bower.json" />
+    <Content Include="lib\ngAutocomplete\bower.json" />
+    <Content Include="lib\ngAutocomplete\README.md" />
+    <Content Include="lib\ngCordova\.bower.json" />
+    <Content Include="lib\ngCordova\bower.json" />
+    <Content Include="lib\ngCordova\CHANGELOG.md" />
+    <Content Include="lib\ngCordova\LICENSE" />
+    <Content Include="lib\ngCordova\package.json" />
+    <Content Include="lib\ngCordova\README.md" />
+    <Content Include="bin\NewShoppingCart.dll.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\style.css" />
+    <Content Include="img\cal.jpg" />
+    <Content Include="img\calendar-numbers-date.jpg" />
+    <Content Include="img\ceo.png" />
+    <Content Include="img\ionic.png" />
+    <Content Include="img\o-CALENDAR-facebook.jpg" />
+    <Content Include="img\user.png" />
+    <Content Include="img\web-fortis-logo21.png" />
+    <Content Include="index.html" />
+    <Content Include="js\app.js" />
+    <Content Include="js\controllers.js" />
+    <Content Include="js\ion-cart.js" />
+    <Content Include="js\services.js" />
+    <Content Include="lib\angular-animate\angular-animate.js" />
+    <Content Include="lib\angular-animate\angular-animate.min.js" />
+    <Content Include="lib\angular-local-storage\demo\demo-app.js" />
+    <Content Include="lib\angular-local-storage\demo\demo-style.css" />
+    <Content Include="lib\angular-local-storage\demo\demo.html" />
+    <Content Include="lib\angular-local-storage\dist\angular-local-storage.js" />
+    <Content Include="lib\angular-local-storage\dist\angular-local-storage.min.js" />
+    <Content Include="lib\angular-messages\angular-messages.js" />
+    <Content Include="lib\angular-messages\angular-messages.min.js" />
+    <Content Include="lib\angular-messages\index.js" />
+    <Content Include="lib\angular-native-picker\build\angular-datepicker.js" />
+    <Content Include="lib\angular-native-picker\build\themes\classic.css" />
+    <Content Include="lib\angular-native-picker\build\themes\classic.date.css" />
+    <Content Include="lib\angular-native-picker\build\themes\classic.time.css" />
+    <Content Include="lib\angular-native-picker\build\themes\default.css" />
+    <Content Include="lib\angular-native-picker\build\themes\default.date.css" />
+    <Content Include="lib\angular-native-picker\build\themes\default.time.css" />
+    <Content Include="lib\angular-native-picker\build\themes\rtl.css" />
+    <Content Include="lib\angular-native-picker\src\directives.js" />
+    <Content Include="lib\angular-native-picker\src\legacy.js" />
+    <Content Include="lib\angular-native-picker\src\picker.date.js" />
+    <Content Include="lib\angular-native-picker\src\picker.js" />
+    <Content Include="lib\angular-native-picker\src\picker.time.js" />
+    <Content Include="lib\angular-sanitize\angular-sanitize.js" />
+    <Content Include="lib\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="lib\angular-ui-router\release\angular-ui-router.js" />
+    <Content Include="lib\angular-ui-router\release\angular-ui-router.min.js" />
+    <Content Include="lib\angular-ui-router\src\common.js" />
+    <Content Include="lib\angular-ui-router\src\resolve.js" />
+    <Content Include="lib\angular-ui-router\src\state.js" />
+    <Content Include="lib\angular-ui-router\src\stateDirectives.js" />
+    <Content Include="lib\angular-ui-router\src\stateFilters.js" />
+    <Content Include="lib\angular-ui-router\src\templateFactory.js" />
+    <Content Include="lib\angular-ui-router\src\urlMatcherFactory.js" />
+    <Content Include="lib\angular-ui-router\src\urlRouter.js" />
+    <Content Include="lib\angular-ui-router\src\view.js" />
+    <Content Include="lib\angular-ui-router\src\viewDirective.js" />
+    <Content Include="lib\angular-ui-router\src\viewScroll.js" />
+    <Content Include="lib\angular\angular-csp.css" />
+    <Content Include="lib\angular\angular.js" />
+    <Content Include="lib\angular\angular.min.js" />
+    <Content Include="lib\ionic\css\ionic.css" />
+    <Content Include="lib\ionic\css\ionic.min.css" />
+    <Content Include="lib\ionic\fonts\ionicons.svg" />
+    <Content Include="lib\ionic\js\ionic-angular.js" />
+    <Content Include="lib\ionic\js\ionic-angular.min.js" />
+    <Content Include="lib\ionic\js\ionic.bundle.js" />
+    <Content Include="lib\ionic\js\ionic.bundle.min.js" />
+    <Content Include="lib\ionic\js\ionic.js" />
+    <Content Include="lib\ionic\js\ionic.min.js" />
+    <Content Include="lib\jquery\dist\jquery.js" />
+    <Content Include="lib\jquery\dist\jquery.min.js" />
+    <Content Include="lib\jquery\MIT-LICENSE.txt" />
+    <Content Include="lib\jquery\src\ajax.js" />
+    <Content Include="lib\jquery\src\ajax\jsonp.js" />
+    <Content Include="lib\jquery\src\ajax\load.js" />
+    <Content Include="lib\jquery\src\ajax\parseJSON.js" />
+    <Content Include="lib\jquery\src\ajax\parseXML.js" />
+    <Content Include="lib\jquery\src\ajax\script.js" />
+    <Content Include="lib\jquery\src\ajax\var\nonce.js" />
+    <Content Include="lib\jquery\src\ajax\var\rquery.js" />
+    <Content Include="lib\jquery\src\ajax\xhr.js" />
+    <Content Include="lib\jquery\src\attributes.js" />
+    <Content Include="lib\jquery\src\attributes\attr.js" />
+    <Content Include="lib\jquery\src\attributes\classes.js" />
+    <Content Include="lib\jquery\src\attributes\prop.js" />
+    <Content Include="lib\jquery\src\attributes\support.js" />
+    <Content Include="lib\jquery\src\attributes\val.js" />
+    <Content Include="lib\jquery\src\callbacks.js" />
+    <Content Include="lib\jquery\src\core.js" />
+    <Content Include="lib\jquery\src\core\access.js" />
+    <Content Include="lib\jquery\src\core\init.js" />
+    <Content Include="lib\jquery\src\core\parseHTML.js" />
+    <Content Include="lib\jquery\src\core\ready.js" />
+    <Content Include="lib\jquery\src\core\var\rsingleTag.js" />
+    <Content Include="lib\jquery\src\css.js" />
+    <Content Include="lib\jquery\src\css\addGetHookIf.js" />
+    <Content Include="lib\jquery\src\css\curCSS.js" />
+    <Content Include="lib\jquery\src\css\defaultDisplay.js" />
+    <Content Include="lib\jquery\src\css\hiddenVisibleSelectors.js" />
+    <Content Include="lib\jquery\src\css\support.js" />
+    <Content Include="lib\jquery\src\css\swap.js" />
+    <Content Include="lib\jquery\src\css\var\cssExpand.js" />
+    <Content Include="lib\jquery\src\css\var\getStyles.js" />
+    <Content Include="lib\jquery\src\css\var\isHidden.js" />
+    <Content Include="lib\jquery\src\css\var\rmargin.js" />
+    <Content Include="lib\jquery\src\css\var\rnumnonpx.js" />
+    <Content Include="lib\jquery\src\data.js" />
+    <Content Include="lib\jquery\src\data\accepts.js" />
+    <Content Include="lib\jquery\src\data\Data.js" />
+    <Content Include="lib\jquery\src\data\var\data_priv.js" />
+    <Content Include="lib\jquery\src\data\var\data_user.js" />
+    <Content Include="lib\jquery\src\deferred.js" />
+    <Content Include="lib\jquery\src\deprecated.js" />
+    <Content Include="lib\jquery\src\dimensions.js" />
+    <Content Include="lib\jquery\src\effects.js" />
+    <Content Include="lib\jquery\src\effects\animatedSelector.js" />
+    <Content Include="lib\jquery\src\effects\Tween.js" />
+    <Content Include="lib\jquery\src\event.js" />
+    <Content Include="lib\jquery\src\event\ajax.js" />
+    <Content Include="lib\jquery\src\event\alias.js" />
+    <Content Include="lib\jquery\src\event\support.js" />
+    <Content Include="lib\jquery\src\exports\amd.js" />
+    <Content Include="lib\jquery\src\exports\global.js" />
+    <Content Include="lib\jquery\src\intro.js" />
+    <Content Include="lib\jquery\src\jquery.js" />
+    <Content Include="lib\jquery\src\manipulation.js" />
+    <Content Include="lib\jquery\src\manipulation\support.js" />
+    <Content Include="lib\jquery\src\manipulation\var\rcheckableType.js" />
+    <Content Include="lib\jquery\src\manipulation\_evalUrl.js" />
+    <Content Include="lib\jquery\src\offset.js" />
+    <Content Include="lib\jquery\src\outro.js" />
+    <Content Include="lib\jquery\src\queue.js" />
+    <Content Include="lib\jquery\src\queue\delay.js" />
+    <Content Include="lib\jquery\src\selector-native.js" />
+    <Content Include="lib\jquery\src\selector-sizzle.js" />
+    <Content Include="lib\jquery\src\selector.js" />
+    <Content Include="lib\jquery\src\serialize.js" />
+    <Content Include="lib\jquery\src\sizzle\dist\sizzle.js" />
+    <Content Include="lib\jquery\src\sizzle\dist\sizzle.min.js" />
+    <Content Include="lib\jquery\src\traversing.js" />
+    <Content Include="lib\jquery\src\traversing\findFilter.js" />
+    <Content Include="lib\jquery\src\traversing\var\rneedsContext.js" />
+    <Content Include="lib\jquery\src\var\arr.js" />
+    <Content Include="lib\jquery\src\var\class2type.js" />
+    <Content Include="lib\jquery\src\var\concat.js" />
+    <Content Include="lib\jquery\src\var\hasOwn.js" />
+    <Content Include="lib\jquery\src\var\indexOf.js" />
+    <Content Include="lib\jquery\src\var\pnum.js" />
+    <Content Include="lib\jquery\src\var\push.js" />
+    <Content Include="lib\jquery\src\var\rnotwhite.js" />
+    <Content Include="lib\jquery\src\var\slice.js" />
+    <Content Include="lib\jquery\src\var\strundefined.js" />
+    <Content Include="lib\jquery\src\var\support.js" />
+    <Content Include="lib\jquery\src\var\toString.js" />
+    <Content Include="lib\jquery\src\wrap.js" />
+    <Content Include="lib\lodash\LICENSE.txt" />
+    <Content Include="lib\lodash\lodash.js" />
+    <Content Include="lib\lodash\lodash.min.js" />
+    <Content Include="lib\ngAutocomplete\examples\advanced.css" />
+    <Content Include="lib\ngAutocomplete\examples\advanced.html" />
+    <Content Include="lib\ngAutocomplete\examples\advanced.js" />
+    <Content Include="lib\ngAutocomplete\src\ngAutocomplete.js" />
+    <Content Include="lib\ngCordova\dist\ng-cordova-mocks.js" />
+    <Content Include="lib\ngCordova\dist\ng-cordova-mocks.min.js" />
+    <Content Include="lib\ngCordova\dist\ng-cordova.js" />
+    <Content Include="lib\ngCordova\dist\ng-cordova.min.js" />
+    <Content Include="lib\underscore\underscore-min.js" />
+    <Content Include="slides\1.png" />
+    <Content Include="slides\2.png" />
+    <Content Include="slides\3.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-43-39.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-44-12.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-45-27.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-45-34.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-47-08.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-47-13.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-47-33.png" />
+    <Content Include="slides\Screenshot_2015-06-27-19-47-58.png" />
+    <Content Include="templates\analytics.html" />
+    <Content Include="templates\cart.html" />
+    <Content Include="templates\subcategory.html" />
+    <Content Include="templates\category.html" />
+    <Content Include="templates\checkout.html" />
+    <Content Include="templates\expensecategory.html" />
+    <Content Include="templates\expenseform.html" />
+    <Content Include="templates\expenses.html" />
+    <Content Include="templates\findanemployee.html" />
+    <Content Include="templates\gallery.html" />
+    <Content Include="templates\getproject.html" />
+    <Content Include="templates\home.html" />
+    <Content Include="templates\invoice.html" />
+    <Content Include="templates\leave.html" />
+    <Content Include="templates\leavepage.html" />
+    <Content Include="templates\login.html" />
+    <Content Include="templates\menu.html" />
+    <Content Include="templates\mypreferences.html" />
+    <Content Include="templates\myproject.html" />
+    <Content Include="templates\myprojectpreferences.html" />
+    <Content Include="templates\myprojects.html" />
+    <Content Include="templates\orders.html" />
+    <Content Include="templates\ourpromise.html" />
+    <Content Include="templates\profile.html" />
+    <Content Include="templates\signin.html" />
+    <Content Include="templates\tasktype.html" />
+    <Content Include="templates\teamstatus.html" />
+    <Content Include="templates\timesheet.html" />
+    <Content Include="templates\timesheetforspecificdate.html" />
+    <Content Include="templates\travelrequest.html" />
+    <Content Include="templates\travelrequestform.html" />
+    <Content Include="templates\upcomingevent.html" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="lib\angular-ui-router\api\angular-ui-router.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>59602</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:59602/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

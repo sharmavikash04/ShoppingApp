@@ -1,0 +1,39 @@
+﻿
+
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">Leave</h1>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="save()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Emergency Mail</span>
+                    <input type="text" ng-model="leave.email" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Emergency Contact</span>
+                    <input type="text" ng-model="leave.phone" required>
+                </label>
+                <div class="item item-divider">
+                </div>
+                <label class="item item-input">
+                    <span class="input-label">Start Date</span>
+                    <input type="date" ng-model="leave.fromdate" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">End Date</span>
+                    <input type="date" ng-model="leave.enddate" required>
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Reason</span>
+                    <textarea id="TextArea" ng-model="leave.reason" ng-keyup="autoExpand($event)" placeholder="notes" required></textarea>
+                </label>
+                <label class="item">
+                    <button class="button button-balanced" type="submit">Save</button>
+                </label>
+            </div>
+        </form>
+
+    </ion-content>
+</ion-modal-view>

@@ -1,0 +1,31 @@
+<ion-view>
+    <ion-nav-title>
+
+    </ion-nav-title>
+    <ion-content>
+       
+        <span class="item item-header margin-top-15">
+            <img class="company-logo" />
+        </span>
+        <form ng-submit="doLogin()">
+            <h2><label class="item item-input" style="font-size:14px; font-weight:bold"> Login As</label></h2>
+            <ion-radio ng-repeat="item in devList" ng-value="item.value" ng-model="loginData.LoginType">{{ item.text }}</ion-radio>
+            <div class="item item-divider">
+            </div>
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Username</span>
+                    <input type="text" ng-model="loginData.username">
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Password</span>
+                    <input type="password" ng-model="loginData.password">
+                </label>
+                <label class="item">
+                    <button class="button button-block button-positive" type="submit">Log in</button>
+                </label>
+            </div>
+        </form>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,129 @@
+﻿
+<style>
+       .wide-as-needed {
+           overflow: scroll;
+           white-space: nowrap;
+       }
+
+       .scroll {
+           min-width: 100%;
+       }
+
+       .bar.bar-loading {
+           display: block;
+           height: 24px;
+           /* starts right below a normal header */
+           top: 44px;
+           /* make the text centered vertically and horizontally */
+           text-align: center;
+           padding: 0;
+           line-height: 24px;
+           /* transition 'sliding down' (check below)*/
+           -webkit-transition: 200ms all;
+       }
+
+
+       /*
+    * make the content's top changes animate.
+    * might not always look good, but looks
+    * good when our loader is added & removed
+    */
+       .has-header {
+           -webkit-transition: 200ms top;
+       }
+
+           .has-header.has-loading {
+               /* 44px (header) + 24px */
+               top: 68px;
+           }
+
+       /* make loading bar slide up/down */
+       .bar-loading.ng-enter,
+       .bar-loading.ng-leave.ng-leave-active {
+           height: 0;
+           border-width: 0px;
+       }
+
+           .bar-loading.ng-enter.ng-enter-active,
+           .bar-loading.ng-leave {
+               height: 24px;
+               border-width: 1px;
+           }
+
+       .wrapper {
+           position: relative;
+       }
+        .wrapper img {
+        width :100%;
+        height:130px;
+        }
+           .wrapper p {
+               background-color: black;
+               bottom: 5%;
+               color: white;
+               font-family: Roboto;
+               font-size: 1.25em;
+               left: 0;
+               padding: 0.25em 0.75em;
+               position: absolute;
+           }
+</style>
+<ion-view>
+
+    <ion-nav-bar class="bar-calm">
+        <ion-nav-buttons side="primary">
+            <button class="button button-icon button-clear" ng-class="$ionicSideMenuDelegate.isOpen() ? 'ion-arrow-left-c' : 'ion-navicon'" menu-toggle="left"></button>
+        </ion-nav-buttons>
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon ion-search" ng-click="toggleSearch()"></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+
+    <ion-content>
+        <div class="bar bar-header item-input-inset" ng-show="showSearch">
+
+            <input type="text" placeholder="Search Item">
+        </div>
+
+
+        <ion-slide-box show-pager="true">
+
+            <ion-slide ng-repeat="item in data.slides">
+
+                <img src={{item.url}} style="width:100%;height:250px;" />
+            </ion-slide>
+        </ion-slide-box>
+        <br />
+        <div class="item-input-inset">
+            <label style="display:inline-block;width:100%;margin:auto; text-align:center;">
+                Shop For
+
+            </label>
+        </div>
+
+        <div class="row" ng-repeat="group in warehousefiltereddepartment" ng-if="$index % 2 === 0">
+            <a href="#/app/category/{{warehousefiltereddepartment[$index].Categoryid}}/0" class="col col-50 wrapper" ng-if="$index < warehousefiltereddepartment.length">
+                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index].Categoryid}}.jpg" style="width:100%;" />
+                <p>{{warehousefiltereddepartment[$index ].CategoryName}} -{{warehousefiltereddepartment[$index ].Categoryid}}</p>
+
+            </a>
+            <a href="#/app/category/{{warehousefiltereddepartment[$index +1].Categoryid}}/0" class="col col-50 wrapper" ng-if="$index + 1 < warehousefiltereddepartment.length">
+                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index +1].Categoryid}}.jpg" style="width:100%;" />
+                <p>{{warehousefiltereddepartment[$index +1].CategoryName}} -{{warehousefiltereddepartment[$index +1].Categoryid}}</p>
+            </a>
+
+        </div>
+                <!--<ion-item class=" products" ng-repeat="group in warehousefiltereddepartment">
+
+
+                    <h2 class='gallery-product-title'>{{group.name}}</h2>
+
+
+        </ion-item>-->
+
+</ion-content>
+
+</ion-view>

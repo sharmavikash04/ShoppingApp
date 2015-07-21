@@ -1,0 +1,55 @@
+﻿
+
+<ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">New Travel Request</h1>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="save()">
+            <div class="list">
+                <label class="item item-input">
+                    <span class="input-label">Departing City</span>
+                    <input type="text" id="Autocomplete" ng-autocomplete ng-model="travel.departcity" />
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Arrival City</span>
+                    <input type="text" id="Autocomplete" ng-autocomplete ng-model="travel.arrivalcity" />
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Departure Date</span>
+                    <input type="date" ng-model="travel.departdate">
+                    <!--<input type="text" pick-a-date="date" placeholder="Select Date" ng-model="travel.DepartureDate" />-->
+                </label>
+                <label class="item item-input">
+                    <span class="input-label">Return Date</span>
+                    <input type="date" ng-model="travel.returndate">
+                </label>
+                <div class="row">
+                    <div class="col col-33">Booking Required</div>
+                    <div class="col">
+                        <label class="checkbox">
+                            Airfare
+                            <input type="checkbox" checked="" ng-model="travel.aifare">
+                        </label><br />
+                        <label class="checkbox"> Hotel
+                            <input type="checkbox" checked="" ng-model="travel.hotel">
+                        </label><br />
+                        <label class="checkbox">Auto
+                            <input type="checkbox" checked="" ng-model="travel.auto">
+                        </label>
+                    </div>
+                </div>
+                <label class="item item-input">
+                    <span class="input-label">Notes(optional)</span>
+                    <!--<textarea  type="text" ng-model="task.Details" > </textarea>-->
+                    <textarea id="textarea" ng-model="travel.description" ng-keyup="autoexpand($event)" placeholder="notes"></textarea>
+                </label>
+                <label class="item">
+                    <button class="button button-balanced" type="submit">Save</button>
+                </label>
+
+            </div>
+        </form>
+
+    </ion-content>
+</ion-modal-view>

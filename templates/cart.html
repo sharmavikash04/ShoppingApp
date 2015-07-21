@@ -1,0 +1,13 @@
+﻿<ion-header-bar class="bar-calm">
+  <button class='button icon ion-arrow-left-a' ng-click='goToGallery()'></button>
+  <h1 class="title">Shopping Cart</h1>
+</ion-header-bar>
+
+<ion-content>
+  <ion-cart products='cartProducts'></ion-cart>
+
+<h2 class='checkout-total'>Total: ₹{{total()}}</h2>
+</ion-content>
+
+
+<ion-cart-footer path='checkoutPath'></ion-cart-footer>

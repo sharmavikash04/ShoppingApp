@@ -1,0 +1,34 @@
+<ion-view view-title="Leave Application">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-plus-round" ng-click="Goto()"></button>
+    </ion-nav-buttons>
+        <ion-content>
+            <p id="p" ng-show="leaveshow">
+                <ion-spinner icon="bubbles" class="spinner-calm"></ion-spinner>
+            </p>
+            <ion-list>
+                <div ng-repeat="item in allleavedata" ng-show="!leaveshow">
+                    <ion-item class="item-stable"
+                              ng-click="toggleGroup(item)"
+                              ng-class="{active: isGroupShown(item)}">
+
+                        <br />
+                        <div class="row responsive-sm">
+                            <!--<div class="col"><i class="icon" ng-class="isGroupShown(item) ? 'ion-minus' : 'ion-plus'"></i></div>-->
+                            <div class="col">Reason : {{item.Reason}}</div>
+                            <div class="col">Approved Or Denied : {{item.ReasonForAppDec}}</div>
+                        </div>
+                    </ion-item>
+                    <ion-item class="item-accordion"
+                              ng-show="isGroupShown(item)">
+                        <!--Employee Name :{{item.EmployeeName}}<br />
+                        Department : {{item.Department}}<br />-->
+                       Emergency Email : {{item.Email}}<br />
+                        Emergency Phone : {{item.CellNo}}<br />
+                        Start Date : {{item.StartDate}}<br />
+                        End Date : {{item.EndDate}}<br />
+                    </ion-item>
+                </div>
+            </ion-list>
+        </ion-content>
+</ion-view>

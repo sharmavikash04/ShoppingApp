@@ -1,0 +1,101 @@
+﻿<ion-view title="{{AiselName}}">
+
+    <ion-nav-bar class="bar-calm">
+       
+        <ion-nav-buttons side="primary">
+            <button class="button button-icon button-clear" ng-class="$ionicSideMenuDelegate.isOpen() ? 'ion-arrow-left-c' : 'ion-navicon'" menu-toggle="left"></button>
+         </ion-nav-buttons>
+
+        <ion-nav-buttons side="right">
+            <button class="button button-icon ion-search" ng-click="toggleSearch()" ></button>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+    <ion-content>
+        <div class="bar bar-header item-input-inset" ng-show="showSearch">
+
+            <input type="text" placeholder="Search Item" ng-model="search">
+        </div>
+
+                <ion-item class="item-avatar-left products" ng-repeat="product in products()|filter:{aisle_id:id}|filter:search">
+                <img ng-src="{{product.primary_image_url}}">
+                <div class="row">
+
+                    <div class="col">{{product.display_name }}</div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col">₹ {{product.total}}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col">
+                        <h3 class="product-unit">MRP {{product.price}}  ₹  {{product.unit}}</h3>
+                        <h3 class="price_quantity ">
+                            ₹ {{product.price}} |10 {{product.Discount}} %
+                        </h3>
+                    </div>
+                    <div class="col">
+                        <ul class="list-inline btn-click">
+                            <li class="circle-btn" ng-click="removeProduct(product)">
+                                -
+                            </li>
+                            <li class="show_quantity ng-binding">{{product.purchaseQuantity}}</li>
+                            <li class="circle-btn" ng-click="addToCart(product)">
+                                +
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </ion-item>
+            <!--<ion-item class="item-avatar-left products" ng-repeat="product in products ">
+                <img ng-src="http://cartindore.herokuapp.com/assets/images/{{product.Image | filter: search.value}}">
+                <div class="row">
+
+                    <div class="col">{{product.Description | filter: search.value}}</div>
+                    <div class="col"></div>
+                    <div class="col"></div>
+                    <div class="col">₹ {{product.total}}</div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col">
+                        <h3 class="product-unit">{{product.unit}}</h3>
+                        <h3 class="price_quantity ">
+                            ₹ {{product.MRP}} |MRP {{product.MRP}}  ₹  | {{product.Discount}} %
+                        </h3>
+                    </div>
+                    <div class="col">
+                        <ul class="list-inline btn-click">
+                            <li class="circle-btn" ng-click="decrementQuantity( product)">
+                                -
+                            </li>
+                            <li class="show_quantity ng-binding">{{product.qty}}</li>
+                            <li class="circle-btn" ng-click="incrementQuantity(product)" product="{&quot;description&quot;:&quot;Not available&quot;,&quot;price&quot;:71,&quot;mapping_id&quot;:145841,&quot;id&quot;:849,&quot;unit&quot;:&quot;500 gm&quot;,&quot;name&quot;:&quot;Pulses - Moong Dal (Skinned)&quot;,&quot;inventory_limit&quot;:10,&quot;large_image_url&quot;:null,&quot;seq_no&quot;:0,&quot;image_url&quot;:&quot;http://cdn.grofers.com/app/images/products/normal/pro_5421.jpg?1427453801&quot;,&quot;brand&quot;:&quot;Private Label&quot;,&quot;quantity&quot;:1}">
+                                +
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </ion-item>-->
+        <!--</ion-list>-->
+        <!--<ion-gallery products='products'></ion-gallery>-->
+    </ion-content>
+    <ion-footer-bar class="bar-calm">
+
+
+        <span class="badge badge-assertive">{{itemCount()}}</span>
+        <button class='button icon ion-bag' ng-click='goToCart()'></button>
+
+        <h1 class="title">Total: ${{total()}}</h1>
+        <div class="buttons" ng-click='goToCart()'>
+            <i class="ion-chevron-right" style="font-size:24px;"></i>
+        </div>
+    </ion-footer-bar>
+</ion-view>
