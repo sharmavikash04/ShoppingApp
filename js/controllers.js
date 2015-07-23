@@ -7,55 +7,16 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
     // listen for the $ionicView.enter event:
     //$scope.$on('$ionicView.enter', function(e) {
     //});
-    $scope.warehousefiltereddepartment = [];
+   
 
-    Products.getDepartments(6).then(function (results) {
-        $scope.warehousefiltereddepartment = results;
-        console.log("$scope.warehousefiltereddepartment");
-        console.log($scope.warehousefiltereddepartment);
+    $scope.warehousefiltereddepartment = Products.getDepartments(6);
 
-    }, function (error) {
-        console.log("error");
-    });
-
-    $scope.warehousefilter = [];
-
-    Products.getItems(6).then(function (results) {
-        $scope.warehousefilter = results;
-        console.log("$scope.warehousefilter");
-        console.log($scope.warehousefilter);
-        $scope.items = results;
-        var item = $scope.items;
-        console.log("My Item");
-        console.log($scope.items);
-
-
-    }, function (error) {
-        console.log("error");
-    });
-  
     $scope.gotosubdepartment = function (item) {
         //alert(item.name);
         console.log(item);
-        console.log("vik Sharma222222");
-        console.log(item.SubCategoryId);
-        //alert("CategoryID:" + item.Categoryid + "& CategoryName:" + item.CategoryName + "& SubCategoryID:" + item.SubCategoryId + "& SubCategoryName:" + item.SubcategoryName);
-        $location.path('/app/category/' + item.Categoryid + '/' + item.SubCategoryId);
-
+        console.log(item.id);
+        $location.path('/app/category/' + item.department_id +'/' + item.id);
     }
-
-    $scope.gotoitemmaster = function (items) {
-        alert(items.name);
-        console.log(items);
-        console.log("vik SharmaMaster");
-        console.log(items.SubsubCategoryid);
-        alert("CategoryID:" + item.Categoryid + "& CategoryName:" + item.CategoryName + "& SubCategoryID:" + item.SubCategoryId + "& SubCategoryName:" + item.SubcategoryName);
-        $location.path('/app/category/' + item.Categoryid + '/' + item.SubCategoryId);
-
-    }
-
-
-
     var maxSlides = 5;
     var slideCounter = 2;
 
@@ -69,13 +30,13 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         {
             title: "Slide 1",
             data: "Slide 1 Content",
-            url: "/img/Home/1.jpg"
+            url : "/img/Home/1.jpg"
         },
-
+     
     {
-        title: "Slide 3",
-        data: "Slide 3 Content",
-        url: "/img/Home/3.jpg"
+    title: "Slide 3",
+    data: "Slide 3 Content",
+    url: "/img/Home/3.jpg"
     }, {
         title: "Slide 4",
         data: "Slide 4 Content",
@@ -96,7 +57,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         return $scope.shownGroup === group;
     };
 
-
+ 
     console.log(localStorageService.get('Token'));
     $scope.authentication = {};
     $scope.authentication = localStorageService.get('LoggedUser');
@@ -122,7 +83,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
     catch (err) {
         $location.path('/app/signin');
     }
-
+    
     // Form data for the login modal
     $scope.loginData = {
         LoginType: "Employee"
@@ -133,7 +94,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
    { text: "Employee", value: "Employee" }
 
     ];
-
+  
 
     // Perform the login action when the user submits the login form
     $scope.doLogin = function () {
@@ -155,7 +116,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         //    loginType: $scope.loginData.LoginType,
         //    useRefreshTokens:true
         //};
-
+       
         //authService.login($scope.PostData).then(function (result) {
         //    authService.gettoken().then(function (tokenresponse) {
         //        $scope.authentication = localStorageService.get('LoggedUser');
@@ -173,15 +134,15 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         //    } catch (e) {
         //        $rootScope.hide();
         //    }
-
+           
         //})
-
+       
     };
 
     $scope.logout = function () {
         authService.logOut();
         $scope.welcome = "";
-        $window.location.href = ('#/app/signin');
+        $window.location.href =('#/app/signin');
         $scope.authentication = localStorageService.get('LoggedUser');
         $ionicHistory.nextViewOptions({
             disableBack: true
@@ -190,13 +151,13 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
 
     $scope.$ionicSideMenuDelegate = $ionicSideMenuDelegate;
 })
-.controller('GalleryController', [
-  '$scope',
-  '$state',
+.controller('GalleryController',[
+  '$scope', 
+  '$state', 
    '$stateParams',
   'Products',
-  'stripeCheckout',
-  function ($scope, $state, $stateParams, Products, stripeCheckout) {
+  'stripeCheckout', 
+  function($scope, $state,  $stateParams, Products, stripeCheckout){
       Products.getProducts();
       console.log($stateParams);
       $scope.id = 0;
@@ -207,66 +168,68 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
 
           Products.removeOneProduct(product);
       };
-
+  	
       $scope.addToCart = function (product) {
           Products.addToCart(product);
       };
+  	
 
 
+    
 
+     $scope.goToCart = function(){
+    $state.go('app.cart');
+  };
+     $scope.products = function () {
+        
+             return Products.galleryProducts;
+        
+         
+     }
+  //  $scope.total = 0;
+    $scope.total = function () {
+        return    Products.cartTotal();
+    }
+    $scope.itemCount = function () {
+        return Products.ItemCount;
+    }
+ 
+    
 
+         $scope.decrementQuantity = function (product)
+        {
+            console.log(product);
+            if (product.qty > 0)
+            {
+                product.qty -= 1;
 
-      $scope.goToCart = function () {
-          $state.go('app.cart');
-      };
-      $scope.products = function () {
+                product.total = product.qty * parseFloat(product.price);
+                $scope.total = $scope.total - parseFloat(product.price);
 
-          return Products.galleryProducts;
-
-
-      }
-      //  $scope.total = 0;
-      $scope.total = function () {
-          return Products.cartTotal();
-      }
-      $scope.itemCount = function () {
-          return Products.ItemCount;
-      }
-
-
-
-      $scope.decrementQuantity = function (product) {
-          console.log(product);
-          if (product.qty > 0) {
-              product.qty -= 1;
-
-              product.total = product.qty * parseFloat(product.price);
-              $scope.total = $scope.total - parseFloat(product.price);
-
-              //product.total = product.qty * product.MRP;
-              //$scope.total = $scope.total - product.MRP;
-              $scope.itemCount = $scope.itemCount - 1;
-              // cartService.updateCart(product, 'minus');
-          }
-      }
-      $scope.incrementQuantity = function (product) {
-          console.log(product);
-
-          product.qty += 1;
-          product.total = product.qty * parseFloat(product.price);
-          $scope.total = $scope.total + parseFloat(product.price);
-          //product.total = product.qty * product.MRP;
-          //$scope.total = $scope.total + product.MRP;
-          $scope.itemCount = $scope.itemCount + 1;
-          //cartService.updateCart(product, 'plus');
-      }
-
+                //product.total = product.qty * product.MRP;
+                //$scope.total = $scope.total - product.MRP;
+                $scope.itemCount = $scope.itemCount - 1;
+               // cartService.updateCart(product, 'minus');
+            }
+        }
+        $scope.incrementQuantity = function (product) {
+            console.log(product);
+       
+            product.qty += 1;
+            product.total = product.qty * parseFloat(product.price);
+            $scope.total = $scope.total + parseFloat(product.price);
+            //product.total = product.qty * product.MRP;
+            //$scope.total = $scope.total + product.MRP;
+            $scope.itemCount = $scope.itemCount + 1;
+            //cartService.updateCart(product, 'plus');
+        }
+      
       $scope.showSearch = false;
       $scope.toggleSearch = function () {
-          $scope.showSearch = !$scope.showSearch;
-          console.log($scope.showSearch);
-          console.log("Toggle Departments");
-      }
+      $scope.showSearch = !$scope.showSearch;
+      console.log($scope.showSearch);
+  	  console.log("Toggle Departments");
+  }
 
 
   }])
@@ -384,71 +347,56 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
 '$stateParams',
 function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParams) {
     // PRODUCTS IN CART //
-    console.log("$stateParams");
     console.log($stateParams);
-    console.log("$stateParams.type");
     console.log($stateParams.type);
     console.log("hiiiii");
     $scope.id = $stateParams.type;
     $scope.subid = $stateParams.subtype;
     console.log($scope.id);
     console.log($scope.subid);
-    console.log("Subcat");
+    
     // alert($scope.id);
-    //this is for SubCategory
-    $scope.warehousefiltereddepartment = [];
+    $scope.department = Products.getDepartmentById($scope.id,6);
+    if ($scope.subid == 0) {
+        $scope.subdepmartment = $scope.department[0].aisles[0];
+        $scope.racks = $scope.subdepmartment.racks;
+    } else {
+        $scope.subdepmartment = _.filter($scope.department[0].aisles, function (aisle) {
+            console.log(aisle);
+            return aisle.id == $scope.subid;
 
-
-    $scope.department = [];
-    Products.getDepartmentById($scope.id, 6).then(function (results) {
-        $scope.department = results;
-        console.log("$scope.department ");
-        console.log($scope.department);
-        if ($scope.subid == 0) {
-            console.log("subid=0");
-            $scope.subdepmartment = $scope.department[0].subCategory[0];
-            $scope.racks = $scope.subdepmartment.subSubCategory;
-        } else {
-            console.log("else");
-            console.log($scope.department[0]);
-            $scope.subdepmartment = _.filter($scope.department[0].subCategory, function (subCategory) {
-                console.log(subCategory);
-                return subCategory.SubCategoryId == $scope.subid;
-
-            });
-            $scope.racks = $scope.subdepmartment[0].subSubCategory;
-        }
-    }, function (error) {
-        console.log("error");
-    });;
-    console.log("$scope.department");
-    console.log($scope.department);
-
+        });
+        $scope.racks = $scope.subdepmartment[0].racks;
+    }
+    console.log($scope.subdepmartment);
+    
+    console.log($scope.department[0]);
     //if ($scope.department[0].aisles.length > 0) {
     //    $scope.racks = $scope.department[0].aisles[0].racks;
     //}
-    $scope.filteraisle = function (id) {
+    $scope.filteraisle = function (id)
+    {
         console.log("Aisle id : " + id);
-        $scope.subdepmartment = _.filter($scope.department[0].subCategory, function (subCategory) {
+        $scope.subdepmartment = _.filter($scope.department[0].aisles, function (aisle) {
             console.log(aisle);
-            return subCategory.id == id;
+            return aisle.id == id;
 
         });
         console.log($scope.subdepmartment);
         $scope.racks = $scope.subdepmartment[0].racks;
-
+       
     }
     console.log($scope.department);
     $scope.products = function () {
-
+       
         if (Products.galleryProducts.length > 0) {
             return Products.galleryProducts;
         } else {
             Products.getProducts();
             return Products.galleryProducts;
         }
-    }   
-
+    }
+   
     $scope.removeProduct = function (product) {
 
         Products.removeOneProduct(product);
@@ -477,17 +425,19 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
     };
     //  $scope.total = 0;
     $scope.total = function () {
-        return Products.cartTotal();
+        return    Products.cartTotal();
     }
     $scope.itemCount = function () {
         return Products.ItemCount;
     }
+ 
+    
 
-
-
-    $scope.decrementQuantity = function (product) {
+    $scope.decrementQuantity = function (product)
+    {
         console.log(product);
-        if (product.qty > 0) {
+        if (product.qty > 0)
+        {
             product.qty -= 1;
 
             product.total = product.qty * parseFloat(product.price);
@@ -501,7 +451,7 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
     }
     $scope.incrementQuantity = function (product) {
         console.log(product);
-
+       
         product.qty += 1;
         product.total = product.qty * parseFloat(product.price);
         $scope.total = $scope.total + parseFloat(product.price);
@@ -510,7 +460,7 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
         $scope.itemCount = $scope.itemCount + 1;
         //cartService.updateCart(product, 'plus');
     }
-
+      
     $scope.showSearch = false;
     $scope.toggleSearch = function () {
         $scope.showSearch = !$scope.showSearch;
@@ -521,45 +471,45 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
     //    console.log("getaislename called");
     //    console.log(id);
     //    console.log(Products.department.aisles.name);
-
+        
     //}
 }])
-.controller('CartController', [
-'$scope',
+.controller('CartController',[
+'$scope', 
 'Products',
 'stripeCheckout',
 '$http',
 '$timeout',
-'$state',
-function ($scope, Products, stripeCheckout, $http, $timeout, $state) {
+'$state', 
+function($scope, Products, stripeCheckout, $http, $timeout, $state){
     // PRODUCTS IN CART //
     $scope.cartProducts = Products.cartProducts;
 
     // TO BE REMOVED
     $scope.total = function () {
-        return Products.cartTotal();
+        return    Products.cartTotal();
     }
     $scope.checkoutPath = 'app.checkout';
 
-    $scope.goToGallery = function () {
+    $scope.goToGallery = function(){
         $state.go('app.gallery');
     };
 
 }])
- .controller('CheckoutController', ['$scope', '$state', '$ionicSideMenuDelegate', 'Products', 'stripeCheckout', function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
-     // PRODUCTS IN CART //
-     $scope.cartProducts = Products.cartProducts;
+ .controller('CheckoutController',['$scope', '$state', '$ionicSideMenuDelegate', 'Products','stripeCheckout', function($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout){
+        // PRODUCTS IN CART //
+        $scope.cartProducts = Products.cartProducts;
 
-     /* MENU TOGGLES */
-     $scope.toggleRightSideMenu = function () {
-         $ionicSideMenuDelegate.toggleRight();
-     };
+        /* MENU TOGGLES */
+        $scope.toggleRightSideMenu = function() {
+            $ionicSideMenuDelegate.toggleRight();
+        };
 
-     $scope.back = function () {
-         $ionicSideMenuDelegate.isOpen() ? $ionicSideMenuDelegate.toggleRight() : $state.go('app.cart');
-     };
+        $scope.back = function(){
+            $ionicSideMenuDelegate.isOpen() ? $ionicSideMenuDelegate.toggleRight() : $state.go('app.cart');
+        };
 
- }])
+    }])
 
 
 
@@ -613,7 +563,7 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state) {
 //      if (!$scope.products.length) {
 //          for (var i = 0; i < $scope.items.length; i++) {
 //              //var ind = Math.floor(Math.random() * 4);
-
+      
 //              //var prod         = {};
 //              //prod.id          = i+1;
 //              //prod.title       = 'Polaroid Camera';
@@ -637,32 +587,32 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state) {
 //  }])
 
 .controller('OrdersController', [
-'$scope',
-'$state',
-'$ionicSideMenuDelegate',
+'$scope', 
+'$state', 
+'$ionicSideMenuDelegate', 
 'Products',
-'stripeCheckout',
-function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
-
+'stripeCheckout', 
+function($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout){
+  
     console.log("In my orders");
 
 
     $scope.orders = [
- { "id": 1, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date": "12/5/2015" },
+ { "id": 1, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date" : "12/5/2015"  },
     { "id": 2, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date": "24/5/2015" },
 { "id": 3, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date": "21/5/2015" },
 { "id": 4, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date": "11/5/2015" },
 { "id": 5, "name": "Order 1", "display_name": "Order 1", "total": 100, "items": 12, "sort_order": null, "date": "16/5/2015" },
     ];
-
-
+   
+ 
 
     $scope.items = [{
-        "qty": 0, "total": 0, "purchaseQuantity": 0, "purchaseQuantity": 0, "brand": "Driscoll's", "id": "107011", "display_name": "Banana", "price": "0.29", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/da7119f012cf0c4133bdf31268f451fd.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/da7119f012cf0c4133bdf31268f451fd.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107042], "wine_rating": ""
-    }, { "qty": 0, "total": 0, "brand": "Driscoll's", "id": "106706", "display_name": "Cilantro Bunch", "price": "0.49", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3c729f03-24b8-48bf-bbcd-d4f56be62f6f.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3c729f03-24b8-48bf-bbcd-d4f56be62f6f.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106648, 106645], "wine_rating": "" }, { "qty": 0, "total": 0, "purchaseQuantity": 0, "brand": "Naturipe", "id": "107154", "display_name": "Yellow Bell Pepper", "price": "0.99", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/33a78ff25279c7432a4a7a333af32f9c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/33a78ff25279c7432a4a7a333af32f9c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "783", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107011, 107019, 106762, 106968, 106784, 347580, 99675, 107161, 106912], "wine_rating": "" }, { "qty": 0, "total": 0, "purchaseQuantity": 0, "brand": "Naturipe", "id": "106762", "display_name": "Rosemary", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/68a7b9e087379951c0d2d6caf20a614c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/68a7b9e087379951c0d2d6caf20a614c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106664, 106784, 110887, 106929, 106731, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "qty": 0, "total": 0, "purchaseQuantity": 0, "brand": "Halos", "id": "106782", "display_name": "Gold Bosc Pears Small", "price": "0.39", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/a65a55247d466999592b7b8dc78b9109.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/a65a55247d466999592b7b8dc78b9109.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106901, 106763, 347603], "wine_rating": "" }, { "qty": 0, "total": 0, "purchaseQuantity": 0, "brand": "Halos", "id": "106664", "display_name": "Mint", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/17bcff16da30ee17f00eb1db8425cf8b.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/17bcff16da30ee17f00eb1db8425cf8b.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106784, 110887, 106929, 106731, 106762, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "qty": 0, "total": 0, "purchaseQuantity": 0, "brand": "Halos", "id": "107019", "display_name": "Christopher Ranch California Garlic Bag", "price": "3.99", "size": "3 lb", "display_size": "3 lb", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/-5a9f27a3e079cd9920a1109756225b0c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/-5a9f27a3e079cd9920a1109756225b0c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "783", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107071, 347580], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Halos", "id": "106784", "display_name": "Epazote", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/b9f49018e0dd764a8b427151f49de167.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/b9f49018e0dd764a8b427151f49de167.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106664, 110887, 106929, 106731, 106762, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "SunBelle", "id": "106901", "display_name": "Driscoll's Fresh Raspberries", "price": "2.99", "size": "6 oz", "display_size": "6 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b072f63b-78ce-4a7a-9f25-580383baaa2a.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b072f63b-78ce-4a7a-9f25-580383baaa2a.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [219576, 106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106763, 347603], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "SunBelle", "id": "106968", "display_name": "Yellow Peaches", "price": "0.39", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/aaa020b79de099514711a06ff129dbbc.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/aaa020b79de099514711a06ff129dbbc.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106901, 106763, 347603], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "SunBelle", "id": "108071", "display_name": "Kroger Vitamin A \u0026 D Skim Milk", "price": "3.29", "size": "gallon", "display_size": "gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/987bdfcaf7cd5f1af7dd5f6f042b4927.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/987bdfcaf7cd5f1af7dd5f6f042b4927.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [347601, 109265, 347597, 109263, 108076, 108074, 108081, 106486, 108069, 108079, 108067], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "SunBelle", "id": "108074", "display_name": "Kroger Vitamin D Whole Milk", "price": "3.69", "size": "gallon", "display_size": "gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/698aa374bf7b6b6bed66e9a859762e98.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/698aa374bf7b6b6bed66e9a859762e98.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [108079, 108067, 108069, 108071, 108081, 106486, 108076], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Pure Heart", "id": "108067", "display_name": "Kroger Vitamin A \u0026 D Skim Milk", "price": "1.79", "size": "half gal", "display_size": "half gal", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2cadfb77-b0c7-4c8c-b3da-a27a775b0c5d.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2cadfb77-b0c7-4c8c-b3da-a27a775b0c5d.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [347601, 347597, 109265, 109263, 106486, 108076, 108074, 108081, 108069, 108071, 108079], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Pure Heart", "id": "107917", "display_name": "Barnstar Family Farms Large Brown Grade AA Eggs", "price": "2.99", "size": "12 ct", "display_size": "12 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/2a7f67e67748d7de291227bec476d2ad.png", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/2a7f67e67748d7de291227bec476d2ad.png", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107920, 106505, 107904], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Pure Heart", "id": "107904", "display_name": "Kroger Large Grade AA Eggs", "price": "2.49", "size": "12 ct", "display_size": "12 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_ce6066b8-5947-4ea1-9a3d-d762828eaccc.jpeg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_ce6066b8-5947-4ea1-9a3d-d762828eaccc.jpeg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107920, 106505, 107917], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Pure Heart", "id": "107920", "display_name": "Kroger Large Grade AA Eggs", "price": "3.49", "size": "18 ct", "display_size": "18 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_53012165-f64f-4c47-bbe6-2e710e345749.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_53012165-f64f-4c47-bbe6-2e710e345749.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106505, 107917, 107904], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "108069", "display_name": "Kroger Vitamin A \u0026 D Reduced Fat 2% Milk", "price": "1.99", "size": "half gallon", "display_size": "half gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/0d9e2e3fb2ac65a80d15c1b78c7ee6b0.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/0d9e2e3fb2ac65a80d15c1b78c7ee6b0.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106488, 219654, 108074, 108081, 106449, 106486, 347601, 108076, 108078, 108075, 108082, 347583, 108071, 108079, 108067], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "106458", "display_name": "Kroger Butter Unsalted", "price": "2.99", "size": "16 oz", "display_size": "16 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5e17a633-5a1b-4bdf-8c44-91ce1978ffd9.jpeg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5e17a633-5a1b-4bdf-8c44-91ce1978ffd9.jpeg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "926", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [110087, 106513, 106294, 106364, 106303, 106332, 106504, 106604, 106523, 106446, 106356, 106344, 106563], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103814", "display_name": "Chobani Nonfat Peach Greek Yogurt", "price": "1.29", "size": "5.3 oz", "display_size": "5.3 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5d2bdb05-35ef-4e28-b2da-af309f1f5726.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_5d2bdb05-35ef-4e28-b2da-af309f1f5726.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "924", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103896, 103867, 104001, 103891, 347599, 103892, 98397, 103745, 98828, 103910, 219582, 103785, 347631, 103749, 103736, 98845], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103781", "display_name": "Thomas' Sourdough English Muffins 6 Pk", "price": "4.39", "size": "12 oz", "display_size": "6 x 12 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_517b2bdb-6906-4c2d-9eb7-ebf991e40d4e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_517b2bdb-6906-4c2d-9eb7-ebf991e40d4e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [219609, 103779, 103879, 103872, 103862, 103780], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99517", "display_name": "Sara Lee Soft \u0026 Smooth 100% Whole Wheat Bakery Bread", "price": "4.29", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_00b62c65-5d69-4d25-9227-4378dce55aa4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_00b62c65-5d69-4d25-9227-4378dce55aa4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [110077, 98270, 99687, 99685, 103666, 99750, 347654, 99528, 99627, 99606], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103656", "display_name": "Oroweat Schwarzwalder Dark Rye Bread", "price": "4.49", "size": "16 oz", "display_size": "16 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_07bff947-4c52-4acd-8eea-73dcd086b898.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_07bff947-4c52-4acd-8eea-73dcd086b898.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99751, 99847], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99750", "display_name": "Oroweat Bread 100% Whole Wheat", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/f19df394d895a687478822a02c07d1e4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/f19df394d895a687478822a02c07d1e4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 99601, 99687, 99755, 97920, 99746, 99538, 99703, 110077, 347654, 99627, 99685, 99517, 99606, 99528], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103780", "display_name": "Thomas' Original English Muffins 6 Pk", "price": "4.39", "size": "12 oz", "display_size": "6 x 12 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_9c1c4d8a-4f07-4178-b592-add4655ba331.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_9c1c4d8a-4f07-4178-b592-add4655ba331.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103879, 219601, 103779, 103872, 219609, 103862, 103781], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99756", "display_name": "Oroweat Country Buttermilk Bread", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3761fd96-a312-4aad-b142-aeffd5998695.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_3761fd96-a312-4aad-b142-aeffd5998695.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99705, 107318, 99687, 99686, 97920, 99805, 103709, 219396, 99627, 103945, 103769, 99750, 99847, 99891, 99804, 197282], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103709", "display_name": "Van de Kamp's Enriched White Sandwich Bread", "price": "1.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_723dc231-aef5-466b-9568-ad86f8117270.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_723dc231-aef5-466b-9568-ad86f8117270.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99891, 107318, 103714, 99538, 103666, 103723], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99805", "display_name": "Oroweat Double Fiber Bread", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/8e116aeaeda149941359615c13295b6b.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/8e116aeaeda149941359615c13295b6b.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 107318, 99687, 99686, 97920, 103709, 99891, 99627, 103945, 103769, 99750, 219620, 219396, 99756, 99702], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "97920", "display_name": "Van de Kamp's Wheat Bread", "price": "1.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_148eca36-2696-4a51-be6e-00c37b03273e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_148eca36-2696-4a51-be6e-00c37b03273e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 110077, 99687, 99606, 99517, 99685, 347654, 99627, 103945, 99538, 99750, 99746, 99703, 99601, 99528], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "103770", "display_name": "Sara Lee Deluxe Pre Sliced Plain Bagels", "price": "4.99", "size": "20 oz", "display_size": "6 x 20 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8959e082-0374-409f-a91a-f878899439b4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8959e082-0374-409f-a91a-f878899439b4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103913, 197273, 219616, 106761, 103970, 103955, 103996, 103900, 103816], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99113", "display_name": "Arrowhead Water Mountain Spring", "price": "3.99", "size": "16.9 oz", "display_size": "24 x 16.9 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_118f69ce-5273-4a20-b9a9-9f5ecc60e584.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_118f69ce-5273-4a20-b9a9-9f5ecc60e584.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "915", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98971, 98412, 98303, 99398, 98343, 99312, 98304, 106143, 107386, 99269, 107166, 106169, 98418, 106201, 99283, 106132], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98414", "display_name": "Coca Cola Classic", "price": "6.99", "size": "12 fl oz", "display_size": "20 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_58bd645d-be54-4360-b14b-05cc8595f199.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_58bd645d-be54-4360-b14b-05cc8595f199.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [98479, 98518, 98472, 98501, 98417, 98419], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "99351", "display_name": "Coca Cola Diet Coke", "price": "1.69", "size": "2 L", "display_size": "2 L", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_9241b5be-991a-4bf7-833e-8232c56ba40c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_9241b5be-991a-4bf7-833e-8232c56ba40c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [106023, 105971, 105985, 98035, 106006, 219629, 105963, 98419, 98456, 98346, 98031, 99336, 106065, 98563, 98458, 98473], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98263", "display_name": "Red Bull Sugarfree Energy Drink", "price": "5.99", "size": "4-8.4 oz", "display_size": "4 x 4-8.4 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8b9739e5-ddc4-44f4-8ab8-cb997cdbf94e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8b9739e5-ddc4-44f4-8ab8-cb997cdbf94e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [99328, 98258, 106217, 106236, 98516, 98260, 106253, 98171, 98206, 98215, 98514, 98244, 98207, 98225, 98349, 98210], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98032", "display_name": "Coca Cola Diet Cola", "price": "2.99", "size": "8-7.5 fl oz", "display_size": "8-7.5 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_e8a47546-645a-42ec-964c-42ec70d67e72.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_e8a47546-645a-42ec-964c-42ec70d67e72.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [105971, 106006, 98035, 219629, 105963, 105987, 98101, 98563, 100485, 99351, 105922, 106065, 105928, 99336, 98474, 105889], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98819", "display_name": "Snapple Diet Peach Iced Tea", "price": "5.99", "size": "96 fl oz", "display_size": "6 x 96 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_0ec9b288-d5b5-489d-90ad-f0229ab753dc.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_0ec9b288-d5b5-489d-90ad-f0229ab753dc.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "914", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [105954, 99316, 106197, 105882, 106195, 357258, 106194, 105562, 98878, 99027, 99314, 99131, 107155, 98510, 98267, 98820], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "106024", "display_name": "Dr. Pepper Diet Dr Pepper", "price": "4.49", "size": "12 fl oz", "display_size": "12 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2b96711e-dd69-4ab5-8cb2-bda132488243.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_2b96711e-dd69-4ab5-8cb2-bda132488243.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [105971, 106018, 98035, 98473, 99336, 105951, 106085, 98563, 105985, 99351, 106006, 106065, 106072, 106023, 106026, 107370], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "102380", "display_name": "Arizona Green Tea with Ginseng and Honey", "price": "2.99", "size": "128 fl oz", "display_size": "128 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_7f064b19-711b-4019-956c-cd245cecd6a7.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_7f064b19-711b-4019-956c-cd245cecd6a7.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "914", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99132, 98925, 98896, 98164, 98510, 98830, 107171, 98157, 98511, 98987, 99150, 98789, 98782, 102247, 106199, 98991], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98970", "display_name": "Gatorade All Stars Thirst Quencher Frost Glacier Freeze Sports Drink", "price": "4.99", "size": "12 fl oz", "display_size": "12 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b145e84d-4b64-40c2-9724-29488011eeea.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_b145e84d-4b64-40c2-9724-29488011eeea.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [98299, 98298, 98287, 98300, 99389], "wine_rating": "" }, { "purchaseQuantity": 0, "brand": "Driscoll's", "id": "98843", "display_name": "Glaceau Vitaminwater Zero Squeezed Lemonade", "price": "1.49", "size": "20 fl oz", "display_size": "20 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8da3c78b-4fe9-486c-acce-b48bee6eeea3.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8da3c78b-4fe9-486c-acce-b48bee6eeea3.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [107407, 98995], "wine_rating": "" }];
+        "qty": 0,"total":0,"purchaseQuantity":0, "purchaseQuantity":0, "brand": "Driscoll's", "id": "107011", "display_name": "Banana", "price": "0.29", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/da7119f012cf0c4133bdf31268f451fd.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/da7119f012cf0c4133bdf31268f451fd.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107042], "wine_rating": ""
+    }, { "qty": 0,"total":0, "brand": "Driscoll's", "id": "106706", "display_name": "Cilantro Bunch", "price": "0.49", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3c729f03-24b8-48bf-bbcd-d4f56be62f6f.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3c729f03-24b8-48bf-bbcd-d4f56be62f6f.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106648, 106645], "wine_rating": "" }, { "qty": 0,"total":0, "purchaseQuantity":0, "brand": "Naturipe", "id": "107154", "display_name": "Yellow Bell Pepper", "price": "0.99", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/33a78ff25279c7432a4a7a333af32f9c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/33a78ff25279c7432a4a7a333af32f9c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "783", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107011, 107019, 106762, 106968, 106784, 347580, 99675, 107161, 106912], "wine_rating": "" }, { "qty": 0,"total":0, "purchaseQuantity":0, "brand": "Naturipe", "id": "106762", "display_name": "Rosemary", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/68a7b9e087379951c0d2d6caf20a614c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/68a7b9e087379951c0d2d6caf20a614c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106664, 106784, 110887, 106929, 106731, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "qty": 0,"total":0, "purchaseQuantity":0, "brand": "Halos", "id": "106782", "display_name": "Gold Bosc Pears Small", "price": "0.39", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/a65a55247d466999592b7b8dc78b9109.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/a65a55247d466999592b7b8dc78b9109.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106901, 106763, 347603], "wine_rating": "" }, { "qty": 0,"total":0, "purchaseQuantity":0, "brand": "Halos", "id": "106664", "display_name": "Mint", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/17bcff16da30ee17f00eb1db8425cf8b.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/17bcff16da30ee17f00eb1db8425cf8b.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106784, 110887, 106929, 106731, 106762, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "qty": 0,"total":0, "purchaseQuantity":0, "brand": "Halos", "id": "107019", "display_name": "Christopher Ranch California Garlic Bag", "price": "3.99", "size": "3 lb", "display_size": "3 lb", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/-5a9f27a3e079cd9920a1109756225b0c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/-5a9f27a3e079cd9920a1109756225b0c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "783", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107071, 347580], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Halos", "id": "106784", "display_name": "Epazote", "price": "1.39", "size": "1 bunch", "display_size": "1 bunch", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/b9f49018e0dd764a8b427151f49de167.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/b9f49018e0dd764a8b427151f49de167.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "782", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106721, 106706, 106664, 110887, 106929, 106731, 106762, 106648, 106645, 106827, 106819, 106679], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "SunBelle", "id": "106901", "display_name": "Driscoll's Fresh Raspberries", "price": "2.99", "size": "6 oz", "display_size": "6 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b072f63b-78ce-4a7a-9f25-580383baaa2a.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b072f63b-78ce-4a7a-9f25-580383baaa2a.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [219576, 106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106763, 347603], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "SunBelle", "id": "106968", "display_name": "Yellow Peaches", "price": "0.39", "size": "each", "display_size": "each", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/aaa020b79de099514711a06ff129dbbc.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/aaa020b79de099514711a06ff129dbbc.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "128", "aisle_id": "781", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106938, 107062, 107042, 347679, 347648, 106870, 347650, 106871, 402400, 106910, 106967, 357259, 106954, 106901, 106763, 347603], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "SunBelle", "id": "108071", "display_name": "Kroger Vitamin A \u0026 D Skim Milk", "price": "3.29", "size": "gallon", "display_size": "gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/987bdfcaf7cd5f1af7dd5f6f042b4927.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/987bdfcaf7cd5f1af7dd5f6f042b4927.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [347601, 109265, 347597, 109263, 108076, 108074, 108081, 106486, 108069, 108079, 108067], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "SunBelle", "id": "108074", "display_name": "Kroger Vitamin D Whole Milk", "price": "3.69", "size": "gallon", "display_size": "gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/698aa374bf7b6b6bed66e9a859762e98.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/698aa374bf7b6b6bed66e9a859762e98.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [108079, 108067, 108069, 108071, 108081, 106486, 108076], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Pure Heart", "id": "108067", "display_name": "Kroger Vitamin A \u0026 D Skim Milk", "price": "1.79", "size": "half gal", "display_size": "half gal", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2cadfb77-b0c7-4c8c-b3da-a27a775b0c5d.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2cadfb77-b0c7-4c8c-b3da-a27a775b0c5d.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [347601, 347597, 109265, 109263, 106486, 108076, 108074, 108081, 108069, 108071, 108079], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Pure Heart", "id": "107917", "display_name": "Barnstar Family Farms Large Brown Grade AA Eggs", "price": "2.99", "size": "12 ct", "display_size": "12 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/2a7f67e67748d7de291227bec476d2ad.png", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/2a7f67e67748d7de291227bec476d2ad.png", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107920, 106505, 107904], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Pure Heart", "id": "107904", "display_name": "Kroger Large Grade AA Eggs", "price": "2.49", "size": "12 ct", "display_size": "12 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_ce6066b8-5947-4ea1-9a3d-d762828eaccc.jpeg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_ce6066b8-5947-4ea1-9a3d-d762828eaccc.jpeg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [107920, 106505, 107917], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Pure Heart", "id": "107920", "display_name": "Kroger Large Grade AA Eggs", "price": "3.49", "size": "18 ct", "display_size": "18 ct", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_53012165-f64f-4c47-bbe6-2e710e345749.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_53012165-f64f-4c47-bbe6-2e710e345749.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "920", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106505, 107917, 107904], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "108069", "display_name": "Kroger Vitamin A \u0026 D Reduced Fat 2% Milk", "price": "1.99", "size": "half gallon", "display_size": "half gallon", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/0d9e2e3fb2ac65a80d15c1b78c7ee6b0.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/0d9e2e3fb2ac65a80d15c1b78c7ee6b0.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "921", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [106488, 219654, 108074, 108081, 106449, 106486, 347601, 108076, 108078, 108075, 108082, 347583, 108071, 108079, 108067], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "106458", "display_name": "Kroger Butter Unsalted", "price": "2.99", "size": "16 oz", "display_size": "16 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5e17a633-5a1b-4bdf-8c44-91ce1978ffd9.jpeg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5e17a633-5a1b-4bdf-8c44-91ce1978ffd9.jpeg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "926", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [110087, 106513, 106294, 106364, 106303, 106332, 106504, 106604, 106523, 106446, 106356, 106344, 106563], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103814", "display_name": "Chobani Nonfat Peach Greek Yogurt", "price": "1.29", "size": "5.3 oz", "display_size": "5.3 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_5d2bdb05-35ef-4e28-b2da-af309f1f5726.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_5d2bdb05-35ef-4e28-b2da-af309f1f5726.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "143", "aisle_id": "924", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103896, 103867, 104001, 103891, 347599, 103892, 98397, 103745, 98828, 103910, 219582, 103785, 347631, 103749, 103736, 98845], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103781", "display_name": "Thomas' Sourdough English Muffins 6 Pk", "price": "4.39", "size": "12 oz", "display_size": "6 x 12 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_517b2bdb-6906-4c2d-9eb7-ebf991e40d4e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_517b2bdb-6906-4c2d-9eb7-ebf991e40d4e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [219609, 103779, 103879, 103872, 103862, 103780], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99517", "display_name": "Sara Lee Soft \u0026 Smooth 100% Whole Wheat Bakery Bread", "price": "4.29", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_00b62c65-5d69-4d25-9227-4378dce55aa4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_00b62c65-5d69-4d25-9227-4378dce55aa4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [110077, 98270, 99687, 99685, 103666, 99750, 347654, 99528, 99627, 99606], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103656", "display_name": "Oroweat Schwarzwalder Dark Rye Bread", "price": "4.49", "size": "16 oz", "display_size": "16 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_07bff947-4c52-4acd-8eea-73dcd086b898.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_07bff947-4c52-4acd-8eea-73dcd086b898.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99751, 99847], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99750", "display_name": "Oroweat Bread 100% Whole Wheat", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/f19df394d895a687478822a02c07d1e4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/f19df394d895a687478822a02c07d1e4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 99601, 99687, 99755, 97920, 99746, 99538, 99703, 110077, 347654, 99627, 99685, 99517, 99606, 99528], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103780", "display_name": "Thomas' Original English Muffins 6 Pk", "price": "4.39", "size": "12 oz", "display_size": "6 x 12 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_9c1c4d8a-4f07-4178-b592-add4655ba331.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_9c1c4d8a-4f07-4178-b592-add4655ba331.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103879, 219601, 103779, 103872, 219609, 103862, 103781], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99756", "display_name": "Oroweat Country Buttermilk Bread", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_3761fd96-a312-4aad-b142-aeffd5998695.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_3761fd96-a312-4aad-b142-aeffd5998695.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99705, 107318, 99687, 99686, 97920, 99805, 103709, 219396, 99627, 103945, 103769, 99750, 99847, 99891, 99804, 197282], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103709", "display_name": "Van de Kamp's Enriched White Sandwich Bread", "price": "1.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_723dc231-aef5-466b-9568-ad86f8117270.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_723dc231-aef5-466b-9568-ad86f8117270.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99891, 107318, 103714, 99538, 103666, 103723], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99805", "display_name": "Oroweat Double Fiber Bread", "price": "3.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/8e116aeaeda149941359615c13295b6b.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/8e116aeaeda149941359615c13295b6b.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 107318, 99687, 99686, 97920, 103709, 99891, 99627, 103945, 103769, 99750, 219620, 219396, 99756, 99702], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "97920", "display_name": "Van de Kamp's Wheat Bread", "price": "1.99", "size": "24 oz", "display_size": "24 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_148eca36-2696-4a51-be6e-00c37b03273e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_148eca36-2696-4a51-be6e-00c37b03273e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "904", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98270, 99705, 110077, 99687, 99606, 99517, 99685, 347654, 99627, 103945, 99538, 99750, 99746, 99703, 99601, 99528], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "103770", "display_name": "Sara Lee Deluxe Pre Sliced Plain Bagels", "price": "4.99", "size": "20 oz", "display_size": "6 x 20 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8959e082-0374-409f-a91a-f878899439b4.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8959e082-0374-409f-a91a-f878899439b4.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "140", "aisle_id": "896", "user_description": "", "featured": "false", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [103913, 197273, 219616, 106761, 103970, 103955, 103996, 103900, 103816], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99113", "display_name": "Arrowhead Water Mountain Spring", "price": "3.99", "size": "16.9 oz", "display_size": "24 x 16.9 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_118f69ce-5273-4a20-b9a9-9f5ecc60e584.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_118f69ce-5273-4a20-b9a9-9f5ecc60e584.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "915", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [98971, 98412, 98303, 99398, 98343, 99312, 98304, 106143, 107386, 99269, 107166, 106169, 98418, 106201, 99283, 106132], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98414", "display_name": "Coca Cola Classic", "price": "6.99", "size": "12 fl oz", "display_size": "20 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_58bd645d-be54-4360-b14b-05cc8595f199.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_58bd645d-be54-4360-b14b-05cc8595f199.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [98479, 98518, 98472, 98501, 98417, 98419], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "99351", "display_name": "Coca Cola Diet Coke", "price": "1.69", "size": "2 L", "display_size": "2 L", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_9241b5be-991a-4bf7-833e-8232c56ba40c.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_9241b5be-991a-4bf7-833e-8232c56ba40c.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [106023, 105971, 105985, 98035, 106006, 219629, 105963, 98419, 98456, 98346, 98031, 99336, 106065, 98563, 98458, 98473], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98263", "display_name": "Red Bull Sugarfree Energy Drink", "price": "5.99", "size": "4-8.4 oz", "display_size": "4 x 4-8.4 oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8b9739e5-ddc4-44f4-8ab8-cb997cdbf94e.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8b9739e5-ddc4-44f4-8ab8-cb997cdbf94e.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [99328, 98258, 106217, 106236, 98516, 98260, 106253, 98171, 98206, 98215, 98514, 98244, 98207, 98225, 98349, 98210], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98032", "display_name": "Coca Cola Diet Cola", "price": "2.99", "size": "8-7.5 fl oz", "display_size": "8-7.5 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_e8a47546-645a-42ec-964c-42ec70d67e72.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_e8a47546-645a-42ec-964c-42ec70d67e72.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [105971, 106006, 98035, 219629, 105963, 105987, 98101, 98563, 100485, 99351, 105922, 106065, 105928, 99336, 98474, 105889], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98819", "display_name": "Snapple Diet Peach Iced Tea", "price": "5.99", "size": "96 fl oz", "display_size": "6 x 96 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_0ec9b288-d5b5-489d-90ad-f0229ab753dc.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_0ec9b288-d5b5-489d-90ad-f0229ab753dc.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "914", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [105954, 99316, 106197, 105882, 106195, 357258, 106194, 105562, 98878, 99027, 99314, 99131, 107155, 98510, 98267, 98820], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "106024", "display_name": "Dr. Pepper Diet Dr Pepper", "price": "4.49", "size": "12 fl oz", "display_size": "12 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_2b96711e-dd69-4ab5-8cb2-bda132488243.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_2b96711e-dd69-4ab5-8cb2-bda132488243.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "916", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [105971, 106018, 98035, 98473, 99336, 105951, 106085, 98563, 105985, 99351, 106006, 106065, 106072, 106023, 106026, 107370], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "102380", "display_name": "Arizona Green Tea with Ginseng and Honey", "price": "2.99", "size": "128 fl oz", "display_size": "128 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_7f064b19-711b-4019-956c-cd245cecd6a7.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_7f064b19-711b-4019-956c-cd245cecd6a7.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "914", "user_description": "", "featured": "true", "taxable": "false", "is_alcoholic?": "false", "related_item_ids": [99132, 98925, 98896, 98164, 98510, 98830, 107171, 98157, 98511, 98987, 99150, 98789, 98782, 102247, 106199, 98991], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98970", "display_name": "Gatorade All Stars Thirst Quencher Frost Glacier Freeze Sports Drink", "price": "4.99", "size": "12 fl oz", "display_size": "12 x 12 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_b145e84d-4b64-40c2-9724-29488011eeea.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_b145e84d-4b64-40c2-9724-29488011eeea.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [98299, 98298, 98287, 98300, 99389], "wine_rating": "" }, { "purchaseQuantity":0, "brand": "Driscoll's", "id": "98843", "display_name": "Glaceau Vitaminwater Zero Squeezed Lemonade", "price": "1.49", "size": "20 fl oz", "display_size": "20 fl oz", "warehouse_id": "6", "visible": "true", "primary_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/primary_8da3c78b-4fe9-486c-acce-b48bee6eeea3.jpg", "large_image_url": "https://d2lnr5mha7bycj.cloudfront.net/itemimage/image/large_8da3c78b-4fe9-486c-acce-b48bee6eeea3.jpg", "product_type": "normal", "unit": "each", "unlisted": "false", "sale_percent": "", "often_out_of_stock": "false", "department_id": "142", "aisle_id": "951", "user_description": "", "featured": "true", "taxable": "true", "is_alcoholic?": "false", "related_item_ids": [107407, 98995], "wine_rating": "" }];
 
 
-    $scope.goToCart = function () {
+    $scope.goToCart = function(){
         $state.go('cart');
     };
 
@@ -670,58 +620,58 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
 .controller('timeCntrl', function ($scope, $ionicSlideBoxDelegate, $ionicModal, $ionicHistory, TimesheetService, $location, $timeout, getsetService, authService, localStorageService) {
     $scope.authentication = localStorageService.get('LoggedUser');
     console.log($scope.authentication);
+   
+        $scope.toggleGroup = function (group) {
+            if ($scope.isGroupShown(group)) {
+                $scope.shownGroup = null;
+            } else {
+                $scope.shownGroup = group;
+            }
+        };
+        $scope.isGroupShown = function (group) {
+            return $scope.shownGroup === group;
+        };
+        $scope.myActiveSlide = 1;
+        $scope.timesheetload = false;
+        $scope.slidedisable = false;
+        $scope.totalhours = '';
+        $scope.SpecificDataforThisdate = [];
+        var date = new Date();
+        date.setDate(date.getDate());
+        console.log(date);
+        $scope.date = convertDate(date);
+        var utc = date.toISOString();
+        console.log(utc);
+        getdata($scope.date);
 
-    $scope.toggleGroup = function (group) {
-        if ($scope.isGroupShown(group)) {
-            $scope.shownGroup = null;
-        } else {
-            $scope.shownGroup = group;
+        $scope.slidePrevious = function () {
+            date.setDate(date.getDate() - 1);
+            $scope.date = convertDate(date);
+             getdata($scope.date);
+           
         }
-    };
-    $scope.isGroupShown = function (group) {
-        return $scope.shownGroup === group;
-    };
-    $scope.myActiveSlide = 1;
-    $scope.timesheetload = false;
-    $scope.slidedisable = false;
-    $scope.totalhours = '';
-    $scope.SpecificDataforThisdate = [];
-    var date = new Date();
-    date.setDate(date.getDate());
-    console.log(date);
-    $scope.date = convertDate(date);
-    var utc = date.toISOString();
-    console.log(utc);
-    getdata($scope.date);
+        $scope.slideNext = function () {
+            date.setDate(date.getDate() + 1);
+            $scope.date =convertDate(date);
+            getdata($scope.date);
+        }
 
-    $scope.slidePrevious = function () {
-        date.setDate(date.getDate() - 1);
-        $scope.date = convertDate(date);
-        getdata($scope.date);
+    
+        //$scope.$on('$ionicView.enter', function () {
+        //    if (!$scope.authentication.isAuth) {
+        //        $location.path('/app/signin');
+        //        $ionicHistory.nextViewOptions({
+        //            disableBack: true
+        //        });
+        //    }
+        //    getdata($scope.date);
+        //})
 
-    }
-    $scope.slideNext = function () {
-        date.setDate(date.getDate() + 1);
-        $scope.date = convertDate(date);
-        getdata($scope.date);
-    }
-
-
-    //$scope.$on('$ionicView.enter', function () {
-    //    if (!$scope.authentication.isAuth) {
-    //        $location.path('/app/signin');
-    //        $ionicHistory.nextViewOptions({
-    //            disableBack: true
-    //        });
-    //    }
-    //    getdata($scope.date);
-    //})
-
-    //Go to next page
-    $scope.Goto = function () {
-        $location.path('/app/timesheetforspecificdate');
-        getsetService.Setdate($scope.date);
-    }
+        //Go to next page
+        $scope.Goto = function () {
+            $location.path('/app/timesheetforspecificdate');
+            getsetService.Setdate($scope.date);
+        }
 
     //  day bottom total
     function d1Total() {
@@ -744,7 +694,7 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
             //console.log($scope.totalhours);
             $scope.timesheetload = false;
             $scope.slidedisable = false;
-        }, function (errr) {
+        },function (errr) {
             try {
                 $scope.timesheetload = false;
                 $scope.slidedisable = false;
@@ -760,13 +710,13 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
         var d = new Date(inputFormat);
         return [pad(d.getMonth() + 1), pad(d.getDate()), d.getFullYear()].join('-');
     }
-    function toUTCDate(date) {
+    function toUTCDate (date) {
         var _utc = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
         return _utc;
     };
 })
 
-.controller('timeforspecificCntrl', function ($scope, $stateParams, TimesheetService, $location, $timeout, getsetService, localStorageService, $rootScope, notification) {
+.controller('timeforspecificCntrl', function ($scope, $stateParams, TimesheetService, $location, $timeout, getsetService, localStorageService,$rootScope, notification) {
     $scope.task = {};
     $scope.Projects = {};
     $scope.TaskType = {};
@@ -865,7 +815,7 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
             getsetService.reset();
         }, function (errr) {
             try {
-
+               
                 $rootScope.notify(errr.Message);
             } catch (e) {
                 $rootScope.hide();
@@ -877,130 +827,130 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
 })
 
 .controller('expensesCntrl', function ($scope, $ionicSlideBoxDelegate, $ionicModal, $ionicHistory, CategoryService, $location, $timeout, getsetServiceForExpense, authService, $ionicActionSheet) {
+   
 
+        $scope.expense = {};
+        $scope.allExpense = {};
+        $scope.Categories = {};
+        $scope.expenseload = false;
+        $scope.categoryload = false;
+        $scope.totalamount = '';
 
-    $scope.expense = {};
-    $scope.allExpense = {};
-    $scope.Categories = {};
-    $scope.expenseload = false;
-    $scope.categoryload = false;
-    $scope.totalamount = '';
-
-    var date = new Date();
-    date.setDate(date.getDate());
-    $scope.date = date.toLocaleDateString();
-    getdata($scope.date);
-
-    $scope.slidePrevious = function () {
-        date.setDate(date.getDate() - 1);
+        var date = new Date();
+        date.setDate(date.getDate());
         $scope.date = date.toLocaleDateString();
-        //console.log($scope.date);
         getdata($scope.date);
 
-    }
-    $scope.slideNext = function () {
-        date.setDate(date.getDate() + 1);
-        $scope.date = date.toLocaleDateString();
-        //console.log($scope.date);
-        getdata($scope.date);
-    }
+        $scope.slidePrevious = function () {
+            date.setDate(date.getDate() - 1);
+            $scope.date = date.toLocaleDateString();
+            //console.log($scope.date);
+            getdata($scope.date);
 
-
-
-    //Go to next page
-    $scope.Goto = function () {
-        getsetServiceForExpense.SetExpensedate($scope.date);
-        $location.path('/app/expenseform');
-    }
-    //Acoordian Function
-    $scope.toggleGroup = function (group) {
-        if ($scope.isGroupShown(group)) {
-            $scope.shownGroup = null;
-        } else {
-            $scope.shownGroup = group;
         }
-    };
-    $scope.isGroupShown = function (group) {
-        return $scope.shownGroup === group;
-    };
-
-
-
-    $scope.$on('$ionicView.enter', function () {
-        getdata($scope.date);
-        //console.log(getsetServiceForExpense.GetExpensedata())
-        var expensedata = getsetServiceForExpense.GetExpensedata();
-        $scope.expense.Date = expensedata.Date;
-        if (expensedata.ProjectName) {
-            $scope.expense.ProjectName = expensedata.ProjectName.ProjectName;
-            $scope.expense.ProjectID = expensedata.ProjectName.ProjectID;
-        }
-        if (expensedata.CategoryName) {
-            $scope.expense.CategoryName = expensedata.CategoryName.CategoryName;
-            $scope.expense.CategoryID = expensedata.CategoryName.CategoryID;
+        $scope.slideNext = function () {
+            date.setDate(date.getDate() + 1);
+            $scope.date = date.toLocaleDateString();
+            //console.log($scope.date);
+            getdata($scope.date);
         }
 
-    })
 
 
-
-    $scope.initCategory = function () {
-        $scope.categoryload = true;
-        CategoryService.Getcategory().then(function (out) {
-            $scope.Categories = out;
-            $scope.categoryload = false;
-            //console.log(out);
-        });
-    }
-
-    $scope.setcategory = function (input) {
-        //console.log(input);
-        getsetServiceForExpense.SetExpenseCategory(input);
-        $location.path('/app/expenseform');
-    }
-
-    //save expense data 
-    $scope.save = function (input) {
-        //console.log($scope.expense);
-        var initial = $scope.expense.Date.split(/\//);
-        var date = [initial[1], initial[0], initial[2]].join('/');
-        //console.log(date);
-        $scope.expense.Date = date;
-        CategoryService.ExpensePost($scope.expense).then(function (out) {
-            getsetServiceForExpense.reset();
-            $location.path('/app/expenses');
-            //console.log(out);
-        })
-    }
-
-
-    //open actionsheet
-    // Triggered on a button click, or some other target
-    $scope.show = function () {
-
-        // Show the action sheet
-        var hideSheet = $ionicActionSheet.show({
-            buttons: [
-              { text: '<b>Share</b> This' },
-              { text: 'Move' }
-            ],
-            destructiveText: 'Delete',
-            titleText: 'Modify your album',
-            cancelText: 'Cancel',
-            cancel: function () {
-                // add cancel code..
-            },
-            buttonClicked: function (index) {
-                return true;
+        //Go to next page
+        $scope.Goto = function () {
+            getsetServiceForExpense.SetExpensedate($scope.date);
+            $location.path('/app/expenseform');
+        }
+        //Acoordian Function
+        $scope.toggleGroup = function (group) {
+            if ($scope.isGroupShown(group)) {
+                $scope.shownGroup = null;
+            } else {
+                $scope.shownGroup = group;
             }
-        });
+        };
+        $scope.isGroupShown = function (group) {
+            return $scope.shownGroup === group;
+        };
 
-        // For example's sake, hide the sheet after two seconds
-        $timeout(function () {
-            hideSheet();
-        }, 2000);
 
-    };
+
+        $scope.$on('$ionicView.enter', function () {
+            getdata($scope.date);
+            //console.log(getsetServiceForExpense.GetExpensedata())
+            var expensedata = getsetServiceForExpense.GetExpensedata();
+            $scope.expense.Date = expensedata.Date;
+            if (expensedata.ProjectName) {
+                $scope.expense.ProjectName = expensedata.ProjectName.ProjectName;
+                $scope.expense.ProjectID = expensedata.ProjectName.ProjectID;
+            }
+            if (expensedata.CategoryName) {
+                $scope.expense.CategoryName = expensedata.CategoryName.CategoryName;
+                $scope.expense.CategoryID = expensedata.CategoryName.CategoryID;
+            }
+
+        })
+
+
+
+        $scope.initCategory = function () {
+            $scope.categoryload = true;
+            CategoryService.Getcategory().then(function (out) {
+                $scope.Categories = out;
+                $scope.categoryload = false;
+                //console.log(out);
+            });
+        }
+
+        $scope.setcategory = function (input) {
+            //console.log(input);
+            getsetServiceForExpense.SetExpenseCategory(input);
+            $location.path('/app/expenseform');
+        }
+
+        //save expense data 
+        $scope.save = function (input) {
+            //console.log($scope.expense);
+            var initial = $scope.expense.Date.split(/\//);
+            var date = [initial[1], initial[0], initial[2]].join('/');
+            //console.log(date);
+            $scope.expense.Date = date;
+            CategoryService.ExpensePost($scope.expense).then(function (out) {
+                getsetServiceForExpense.reset();
+                $location.path('/app/expenses');
+                //console.log(out);
+            })
+        }
+
+
+        //open actionsheet
+        // Triggered on a button click, or some other target
+        $scope.show = function () {
+
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [
+                  { text: '<b>Share</b> This' },
+                  { text: 'Move' }
+                ],
+                destructiveText: 'Delete',
+                titleText: 'Modify your album',
+                cancelText: 'Cancel',
+                cancel: function () {
+                    // add cancel code..
+                },
+                buttonClicked: function (index) {
+                    return true;
+                }
+            });
+
+            // For example's sake, hide the sheet after two seconds
+            $timeout(function () {
+                hideSheet();
+            }, 2000);
+
+        };
 
     //function for Get Expense data for specfic date
     function getdata(date1) {
@@ -1093,7 +1043,7 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
             } catch (e) {
                 $rootScope.hide();
             }
-
+           
         })
     }
 })
@@ -1212,7 +1162,7 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
     //get all user
     function getdata() {
         $scope.employeeload = true;
-
+        
         FindanEmployeeService.Allemployee().then(function (success) {
             $scope.employeeload = false;
             $scope.Employee = success;
@@ -1220,10 +1170,11 @@ function ($scope, $state, $ionicSideMenuDelegate, Products, stripeCheckout) {
         }, function (err) {
         })
     }
-
+        
     //get single user
-    $scope.setEmployee = function (systemuserid) {
+    $scope.setEmployee=function(systemuserid)
+    {
         console.log(systemuserid);
     }
-
+    
 })

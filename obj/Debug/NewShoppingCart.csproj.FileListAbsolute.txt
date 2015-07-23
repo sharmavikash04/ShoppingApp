@@ -16,9 +16,9 @@ C:\Akhilesh\Projects\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShop
 C:\Akhilesh\Projects\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.dll
 C:\Akhilesh\Projects\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.pdb
 C:\Akhilesh\Projects\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.csprojResolveAssemblyReference.cache
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.dll.config
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.dll
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.pdb
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.csprojResolveAssemblyReference.cache
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.dll
-C:\Users\user\Desktop\Vikash\Mobile Projects\Test\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.pdb
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.dll.config
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.dll
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\bin\NewShoppingCart.pdb
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.csprojResolveAssemblyReference.cache
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.dll
+C:\Users\user\Desktop\Vikash\Mobile Projects\Test\old\NewShoppingCart\NewShoppingCart\NewShoppingCart\obj\Debug\NewShoppingCart.pdb
