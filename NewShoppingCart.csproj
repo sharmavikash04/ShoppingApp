@@ -60,6 +60,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\NewShoppingCart.dll" />
+    <Content Include="bin\NewShoppingCart.pdb" />
     <Content Include="css\ion-shop-styles.css" />
     <Content Include="HtmlPage1.html" />
     <Content Include="img\departments\128.jpg" />
@@ -69,23 +71,26 @@
     <Content Include="img\departments\145.jpg" />
     <Content Include="img\departments\3.jpg" />
     <Content Include="img\departments\4.jpg" />
-    <Content Include="img\departments\477.jpg" />
-    <Content Include="img\departments\147.jpg" />
+    <Content Include="img\departments\9.jpg" />
+    <Content Include="img\departments\10.jpg" />
     <Content Include="img\departments\2.jpg" />
     <Content Include="img\departments\140.jpg" />
     <Content Include="img\departments\142.jpg" />
-    <Content Include="img\departments\149.jpg" />
+    <Content Include="img\departments\1.jpg" />
     <Content Include="img\departments\5.jpg" />
     <Content Include="img\departments\6.jpg" />
     <Content Include="img\departments\7.jpg" />
     <Content Include="img\departments\8.jpg" />
     <Content Include="img\departments\deli.jpg" />
+    <Content Include="img\edit.png" />
+    <Content Include="img\geo.png" />
     <Content Include="img\Home\1.jpg" />
     <Content Include="img\Home\2.jpg" />
     <Content Include="img\Home\3.jpg" />
     <Content Include="img\Home\4.jpg" />
     <Content Include="img\Home\5.jpg" />
     <Content Include="img\Home\6.jpg" />
+    <Content Include="img\icon-small-person.png" />
     <Content Include="lib\angular-animate\.bower.json" />
     <Content Include="lib\angular-animate\angular-animate.min.js.map" />
     <Content Include="lib\angular-animate\bower.json" />
@@ -205,6 +210,7 @@
     <Content Include="lib\ngCordova\LICENSE" />
     <Content Include="lib\ngCordova\package.json" />
     <Content Include="lib\ngCordova\README.md" />
+    <Content Include="bin\NewShoppingCart.dll.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -387,6 +393,8 @@
     <Content Include="slides\Screenshot_2015-06-27-19-47-58.png" />
     <Content Include="templates\analytics.html" />
     <Content Include="templates\cart.html" />
+    <Content Include="templates\PicLocation.html" />
+    <Content Include="templates\signup.html" />
     <Content Include="templates\subcategory.html" />
     <Content Include="templates\category.html" />
     <Content Include="templates\checkout.html" />
@@ -420,6 +428,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

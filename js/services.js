@@ -3,175 +3,175 @@ angular.module('starter.services', [])
 
 .factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSettings', '$window', function ($http, $q, localStorageService, ngAuthSettings, $window) {
 
-        var serviceBase = ngAuthSettings.apiServiceBaseUri;
-        var authServiceFactory = {};
+    var serviceBase = ngAuthSettings.apiServiceBaseUri;
+    var authServiceFactory = {};
 
-        var _authentication = {
-            isAuth: false,
-            userName: "",
-            userId: "",
-            useRefreshTokens: false,
-            isCustomer: false,
-        };
+    var _authentication = {
+        isAuth: false,
+        userName: "",
+        userId: "",
+        useRefreshTokens: false,
+        isCustomer: false,
+    };
 
-        var _login = function (loginData) {
-            console.log(loginData);
-            _logOut();
-            var deferred = $q.defer();
-            $http.post(serviceBase + 'api/audience', loginData).success(function (response) {
-                //console.log(response);
-                if (loginData.useRefreshTokens) {
-                    localStorageService.set('AudienceData', { ClientId: response.ClientId, userName: loginData.Username, password: loginData.Password, refreshToken: response.refresh_token, useRefreshTokens: true });
-                }
-                else {
-                    localStorageService.set('AudienceData', { ClientId: response.ClientId, userName: loginData.Username, password: loginData.Password, useRefreshTokens: false });
-                }
-                if (loginData.loginType == "Customer") {
-                    _authentication.isCustomer = true;
-                }
-                _authentication.isAuth = true;
-                _authentication.userName = loginData.Username;
-                _authentication.useRefreshTokens = false;
-                _authentication.userId = response.Userid;
-                localStorageService.set('LoggedUser', _authentication);
-                deferred.resolve(response);
-
-            }).error(function (err, status) {
-                _logOut();
-                deferred.reject(err);
-            });
-
-            return deferred.promise;
-
-        };
-        var _gettoken = function () {
-            var authData = localStorageService.get('AudienceData');
-            var admin = { userName: "akothari@webfortis.com", password: "wfp@ssw0rd" };
-            //var admin = { userName: "akothari@crmlrn1.onmicrosoft.com", password: "am@n4192" };
-            if (authData) {
-                if (authData.ClientId) {
-                    var deferred = $q.defer();
-                    var data = "grant_type=password&username=" + admin.userName + "&password=" + admin.password + "&client_id=" + authData.ClientId;
-                    localStorageService.remove('Token');
-                    $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
-                        localStorageService.set('Token', { access_token: response.access_token, username: response.username, useRefreshTokens: true });
-                        deferred.resolve(response);
-
-                    }).error(function (err, status) {
-                        _logOut();
-                        $window.location.reload();
-                        deferred.reject(err);
-
-                    });
-                }
+    var _login = function (loginData) {
+        console.log(loginData);
+        _logOut();
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/audience', loginData).success(function (response) {
+            //console.log(response);
+            if (loginData.useRefreshTokens) {
+                localStorageService.set('AudienceData', { ClientId: response.ClientId, userName: loginData.Username, password: loginData.Password, refreshToken: response.refresh_token, useRefreshTokens: true });
             }
-            return deferred.promise;
-
-        }
-        var _logOut = function () {
-            localStorageService.clearAll();
-            _authentication.isAuth = false;
-            _authentication.isCustomer = false;
-            _authentication.userName = "";
+            else {
+                localStorageService.set('AudienceData', { ClientId: response.ClientId, userName: loginData.Username, password: loginData.Password, useRefreshTokens: false });
+            }
+            if (loginData.loginType == "Customer") {
+                _authentication.isCustomer = true;
+            }
+            _authentication.isAuth = true;
+            _authentication.userName = loginData.Username;
             _authentication.useRefreshTokens = false;
+            _authentication.userId = response.Userid;
             localStorageService.set('LoggedUser', _authentication);
-        };
+            deferred.resolve(response);
 
-        var _fillAuthData = function () {
+        }).error(function (err, status) {
+            _logOut();
+            deferred.reject(err);
+        });
 
-            var authData = localStorageService.get('AudienceData');
-            if (authData) {
-                _authentication.isAuth = true;
-                _authentication.userName = authData.userName;
-                _authentication.useRefreshTokens = authData.useRefreshTokens;
+        return deferred.promise;
+
+    };
+    var _gettoken = function () {
+        var authData = localStorageService.get('AudienceData');
+        var admin = { userName: "akothari@webfortis.com", password: "wfp@ssw0rd" };
+        //var admin = { userName: "akothari@crmlrn1.onmicrosoft.com", password: "am@n4192" };
+        if (authData) {
+            if (authData.ClientId) {
+                var deferred = $q.defer();
+                var data = "grant_type=password&username=" + admin.userName + "&password=" + admin.password + "&client_id=" + authData.ClientId;
+                localStorageService.remove('Token');
+                $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+                    localStorageService.set('Token', { access_token: response.access_token, username: response.username, useRefreshTokens: true });
+                    deferred.resolve(response);
+
+                }).error(function (err, status) {
+                    _logOut();
+                    $window.location.reload();
+                    deferred.reject(err);
+
+                });
             }
+        }
+        return deferred.promise;
 
-        };
+    }
+    var _logOut = function () {
+        localStorageService.clearAll();
+        _authentication.isAuth = false;
+        _authentication.isCustomer = false;
+        _authentication.userName = "";
+        _authentication.useRefreshTokens = false;
+        localStorageService.set('LoggedUser', _authentication);
+    };
 
-        var _refreshToken = function () {
-            var deferred = $q.defer();
+    var _fillAuthData = function () {
 
-            var authData = localStorageService.get('AudienceData');
-            console.log('AudienceData');
-            console.log(authData);
-            if (authData) {
+        var authData = localStorageService.get('AudienceData');
+        if (authData) {
+            _authentication.isAuth = true;
+            _authentication.userName = authData.userName;
+            _authentication.useRefreshTokens = authData.useRefreshTokens;
+        }
 
-                if (authData.useRefreshTokens) {
+    };
 
-                    var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + authData.ClientId;
+    var _refreshToken = function () {
+        var deferred = $q.defer();
 
-                    localStorageService.remove('AudienceData');
+        var authData = localStorageService.get('AudienceData');
+        console.log('AudienceData');
+        console.log(authData);
+        if (authData) {
 
-                    $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+            if (authData.useRefreshTokens) {
 
-                        localStorageService.set('AudienceData', { token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
+                var data = "grant_type=refresh_token&refresh_token=" + authData.refreshToken + "&client_id=" + authData.ClientId;
 
-                        deferred.resolve(response);
+                localStorageService.remove('AudienceData');
 
-                    }).error(function (err, status) {
-                        _logOut();
-                        deferred.reject(err);
-                    });
-                }
+                $http.post(serviceBase + 'token', data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
+
+                    localStorageService.set('AudienceData', { token: response.access_token, userName: response.userName, refreshToken: response.refresh_token, useRefreshTokens: true });
+
+                    deferred.resolve(response);
+
+                }).error(function (err, status) {
+                    _logOut();
+                    deferred.reject(err);
+                });
             }
+        }
 
-            return deferred.promise;
-        };
+        return deferred.promise;
+    };
 
 
 
-        authServiceFactory.login = _login;
-        authServiceFactory.logOut = _logOut;
-        authServiceFactory.fillAuthData = _fillAuthData;
-        authServiceFactory.authentication = _authentication;
-        authServiceFactory.refreshToken = _refreshToken;
-        authServiceFactory.gettoken = _gettoken;
-        return authServiceFactory;
+    authServiceFactory.login = _login;
+    authServiceFactory.logOut = _logOut;
+    authServiceFactory.fillAuthData = _fillAuthData;
+    authServiceFactory.authentication = _authentication;
+    authServiceFactory.refreshToken = _refreshToken;
+    authServiceFactory.gettoken = _gettoken;
+    return authServiceFactory;
 }])
 
 .factory('authInterceptorService', ['$q', '$injector', '$location', 'localStorageService', '$window', function ($q, $injector, $location, localStorageService, $window) {
 
-        var authInterceptorServiceFactory = {};
+    var authInterceptorServiceFactory = {};
 
-        var _request = function (config) {
+    var _request = function (config) {
 
-            config.headers = config.headers || {};
+        config.headers = config.headers || {};
 
-            var authData = localStorageService.get('Token');
+        var authData = localStorageService.get('Token');
+        if (authData) {
+            config.headers.Authorization = 'Bearer ' + authData.access_token;
+        }
+
+        return config;
+    }
+
+    var _responseError = function (rejection) {
+        if (rejection.status === 401) {
+            var authService = $injector.get('authService');
+            var authData = localStorageService.get('AudienceData');
             if (authData) {
-                config.headers.Authorization = 'Bearer ' + authData.access_token;
+                if (authData.useRefreshTokens) {
+                    authService.gettoken().then(function (tokenresponse) {
+                        $window.location.href = ('#/app/home');
+                    })
+
+                    return $q.reject(rejection);
+                }
+            }
+            else {
+                authService.logOut();
+                $location.path('#/app/signin');
             }
 
-            return config;
         }
+        return $q.reject(rejection);
+    }
 
-        var _responseError = function (rejection) {
-            if (rejection.status === 401) {
-                var authService = $injector.get('authService');
-                var authData = localStorageService.get('AudienceData');
-                if (authData) {
-                    if (authData.useRefreshTokens) {
-                        authService.gettoken().then(function (tokenresponse) {
-                            $window.location.href = ('#/app/home');
-                        })
+    authInterceptorServiceFactory.request = _request;
+    authInterceptorServiceFactory.responseError = _responseError;
 
-                        return $q.reject(rejection);
-                    }
-                }
-                else {
-                    authService.logOut();
-                    $location.path('#/app/signin');
-                }
-
-            }
-            return $q.reject(rejection);
-        }
-
-        authInterceptorServiceFactory.request = _request;
-        authInterceptorServiceFactory.responseError = _responseError;
-
-        return authInterceptorServiceFactory;
-    }])
+    return authInterceptorServiceFactory;
+}])
 
 .factory('TimesheetService', function ($q, $http, ngAuthSettings) {
     var TimesheetServiceFactory = {};
@@ -232,27 +232,7 @@ angular.module('starter.services', [])
     return TimesheetServiceFactory;
 })
 
-.factory('getsetService', function () {
-    var tempdata = {};
-    var data = {};
-    return data = {
-        Getdata: function () {
-            return tempdata;
-        },
-        Setdate: function (input) {
-            tempdata.startdate = input;
-        },
-        Setproject: function (input) {
-            tempdata.project = input;
-        },
-        SetTasktype: function (input) {
-            tempdata.tasktype = input;
-        },
-        reset: function () {
-            tempdata = {};
-        }
-    };
-})
+
 
 .factory('notification', function ($rootScope, $ionicLoading, $window) {
     $rootScope.show = function (text) {
@@ -365,27 +345,27 @@ angular.module('starter.services', [])
 
 
 .factory('getsetServiceForExpense', function ($rootScope) {
-     var tempdata = {};
-     var data = {};
-     return data = {
-         GetExpensedata: function () {
-             return tempdata;
-         },
-         SetExpensedate: function (input) {
-             tempdata.Date = input;
-         },
-         SetExpenseproject: function (input) {
-             tempdata.ProjectName = input;
-         },
-         SetExpenseCategory: function (input) {
-             tempdata.CategoryName = input;
-         },
-         reset: function () {
-             tempdata = {};
-         }
-     };
+    var tempdata = {};
+    var data = {};
+    return data = {
+        GetExpensedata: function () {
+            return tempdata;
+        },
+        SetExpensedate: function (input) {
+            tempdata.Date = input;
+        },
+        SetExpenseproject: function (input) {
+            tempdata.ProjectName = input;
+        },
+        SetExpenseCategory: function (input) {
+            tempdata.CategoryName = input;
+        },
+        reset: function () {
+            tempdata = {};
+        }
+    };
 
- })
+})
 
 .factory('CategoryService', function ($q, $http, ngAuthSettings) {
     var CategoryServiceFactory = {};

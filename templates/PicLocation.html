@@ -1,0 +1,47 @@
+﻿<style>
+     /*.search {
+      
+        background: url('../img/icon-small-person.png') no-repeat;
+        padding-left: 26px;
+        border:none;
+    }*/
+</style>
+
+<ion-view>
+    <ion-nav-title>
+
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="bar bar-header bar-light">
+            <h1 class="title">Select your Locality</h1>
+        </div>
+        <br />
+        <br />
+        <div ng-init="initialize()">
+            <div class="padding" >
+                <label class="item item-input">
+
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input id="autocomplete" placeholder="Enter your Location" ng-model="ClientData.Address" value="{{ClientData.Address}}"
+                           onfocus="geolocate()" type="text" />
+                </label>
+                </div>
+                <!--<label class="item item-input item-floating-label">
+            <span class="input-label">Enter your Location</span>
+
+        </label>-->
+            </div>
+            <div class="padding">
+                <!--<i class=""></i>-->
+                <button id="piclocation" class="button button-clear button-stable ion-android-locate" ng-click="getLocation()">  Click for your Current location</button>
+            </div>
+
+                  <div class="padding">
+                <button id="SaveData" class="button button-block button-positive" ng-click="save(CustomerData)">Submit</button>
+                      <!--ng-show="SaveData"--> 
+                    
+            </div>
+</ion-content>
+</ion-view>
+

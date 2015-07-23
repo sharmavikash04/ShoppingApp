@@ -105,17 +105,17 @@
         </div>
 
         <div class="row" ng-repeat="group in warehousefiltereddepartment" ng-if="$index % 2 === 0">
-            <a href="#/app/category/{{warehousefiltereddepartment[$index].id}}/0" class="col col-50 wrapper" ng-if="$index < warehousefiltereddepartment.length">
-                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index].id}}.jpg" style="width:100%;" />
-                <p>{{warehousefiltereddepartment[$index ].name}} -{{warehousefiltereddepartment[$index ].id}}</p>
+            <a href="#/app/category/{{warehousefiltereddepartment[$index].Categoryid}}/0" class="col col-50 wrapper" ng-if="$index < warehousefiltereddepartment.length">
+                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index].Categoryid}}.jpg" style="width:100%;" />
+                <p>{{warehousefiltereddepartment[$index ].CategoryName}} -{{warehousefiltereddepartment[$index ].Categoryid}}</p>
 
             </a>
-            <a href="#/app/category/{{warehousefiltereddepartment[$index +1].id}}/0" class="col col-50 wrapper" ng-if="$index + 1 < warehousefiltereddepartment.length">
-                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index +1].id}}.jpg" style="width:100%;" />
-                <p>{{warehousefiltereddepartment[$index +1].name}} -{{warehousefiltereddepartment[$index +1].id}}</p>
-                </a>
+            <a href="#/app/category/{{warehousefiltereddepartment[$index +1].Categoryid}}/0" class="col col-50 wrapper" ng-if="$index + 1 < warehousefiltereddepartment.length">
+                <img ng-src="../img/departments/{{warehousefiltereddepartment[$index +1].Categoryid}}.jpg" style="width:100%;" />
+                <p>{{warehousefiltereddepartment[$index +1].CategoryName}} -{{warehousefiltereddepartment[$index +1].Categoryid}}</p>
+            </a>
 
-                </div>
+        </div>
                 <!--<ion-item class=" products" ng-repeat="group in warehousefiltereddepartment">
 
 

@@ -1,8 +1,32 @@
-<style>
+﻿<style>
 
     ion-side-menu.menu-left.menu {
-  background-color: orange !important;
-}
+        background-color: orange !important;
+        
+    }
+    .mobile {
+      
+        background: url('../img/icon-small-person.png') no-repeat;
+        padding-left: 26px;
+        border:none;
+    }
+    .geo {
+       
+        background: url('../img/geo.png') no-repeat;
+        /*padding-left: 26px;
+        border:none;*/
+        /*border: 1px solid #ccc;*/
+    }
+    #clickbutton {
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        position: relative;
+        left: -22px;
+        top: 3px;
+        /*background-image: url('../img/edit.png');*/
+         background: url('../img/edit.png') no-repeat;   
+    }
 </style>
 <ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content>
@@ -31,6 +55,34 @@
                 <div class="item item-divider">
                     <h3>{{welcome}}</h3>
                 </div>
+                <div >
+                    <!--<div ng-init="initialize()">-->
+                        <ion-item>
+                            <input id="txtmob" value="{{ClientData.Mobile}}" ng-disabled="true" class="mobile" />
+                            
+                            <!--<lable id="lblmob" value="{{ClientData.Mobile}}"></lable>-->
+                        </ion-item>
+                        <ion-item>
+                            <!--{{ClientData.Address}}-->
+                            <div class="row" style="width:100%">
+                                <div class="col-90">
+                                    <input id="autocomplete" style="width:100%" placeholder="Enter your address" ng-model="ClientData.Address" value="{{ClientData.Address}}" ng-disabled="autocomplete"
+                                           onfocus="geolocate()" type="text" />
+                                </div>
+                                <div class="col-10">
+                                    <input id="clickbutton" type="submit" ng-show="clickbuttonshow" ng-click="showedit()" />
+                                    <input Value="Update" ng-show="btnupdate" type="submit" ng-click="updateAddress(ClientData)" />
+                                </div>
+                            </div>
+                        
+                                
+                                <!--<span></span>-->
+
+                                <!--<input id="address" disabled="true"></input>-->
+</ion-item>
+
+<!--/div>-->
+                    </div>
                 <!--<h2>Welcome {{welcome}} </h2>-->
                 <!--for employee
                 ng-show="!authentication.isCustomer && authentication.isAuth"
@@ -88,16 +140,18 @@
                               ng-class="{active: isGroupShown(group)}">
                         <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
                         &nbsp;
-                        {{group.name}}
+                        {{group.CategoryName}}
                     </ion-item>
                     <ion-item class="item-accordion" menu-close
                               ng-click="gotosubdepartment(item)"
-                              ng-repeat="item in group.aisles"
+                              ng-repeat="item in group.SubCategory"
                               ng-show="isGroupShown(group)">
-                        {{item.name}}
+                        {{item.SubcategoryName}}
                     </ion-item>
                 </div>
             </ion-list>
         </ion-content>
     </ion-side-menu>
 </ion-side-menus>
+
+

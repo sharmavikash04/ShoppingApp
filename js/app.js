@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','ionicShop.services', 'LocalStorageModule', 'ngMessages', 'ngAutocomplete'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ionicShop.services', 'LocalStorageModule', 'ngMessages', 'ngAutocomplete'])
 
 .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -287,6 +287,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services','i
             }
         }
     })
+        .state('app.signup', {
+            url: "/signup",
+            views: {
+                'menuContent': {
+                    templateUrl: "templates/signup.html",
+                    controller: 'CustomerRegistration'
+                }
+            }
+        })
+    .state('app.location', {
+        url: "/location",
+        views: {
+            'menuContent': {
+                templateUrl: "templates/PicLocation.html",
+                controller: 'CustomerRegistration'
+            }
+        }
+    })
+    
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/signin');
+    $urlRouterProvider.otherwise('/app/signup');
 });

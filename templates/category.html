@@ -1,8 +1,5 @@
 ﻿<style>
-       .wide-as-needed {
-           overflow: scroll;
-           white-space: nowrap;
-       }
+      
 
        .scroll {
            min-width: 100%;
@@ -60,8 +57,12 @@
     border-bottom :1px solid red;
    
     }
+  
 </style>
-<ion-view title="{{department[0].display_name}}">
+
+
+
+<ion-view title="{{department[0].CategoryName}}">
 
     <ion-nav-bar class="bar-calm">
        
@@ -74,142 +75,141 @@
         </ion-nav-buttons>
 
     </ion-nav-bar>
+
+
     <ion-header-bar class="bar-subheader">
-        <ion-scroll id="ionScrollRegion" direction="x">
-            <div id="content">
+
+        <!--<ion-scroll id="ionScrollRegion" direction="x">
+            <div id="content">-->
               
                     <!--<div class="item sub selected" ng-if="group.id == subid" ng-repeat="group in department[0].aisles">{{group.name}} -1</div>-->
-                    <div class="item sub" ng-if="group.id != subid" ng-repeat="group in department[0].aisles">{{group.name}}</div>
+                    <!--<div class="item sub" ng-if="group.id != subid" ng-repeat="group in department[0].aisles">{{group.name}}</div>
               
             </div>
-        </ion-scroll>
-         <!--<ion-scroll direction="x" class="wide-as-needed" >
-             <button ng-click="filteraisle(group.id)" class="button" ng-repeat="group in department[0].aisles"  style="display:inline-block;">
-
-
-                 <div ng-if="group.id == subid" style="background-color:red;">
-                  {{group.name}}
+        </ion-scroll>-->
+         <ion-scroll direction="x" style="white-space: nowrap;" >
+             <button ng-click="filteraisle(group.SubCategoryId)" class="button" ng-repeat="group in department[0].SubCategory"  style="display:inline-block; border-top: 0px !important;
+               border-bottom: 0px !important; border-left: 0px !important;">
+                 <div ng-if="group.SubCategoryId == subid">
+                     {{group.SubcategoryName}}
                  </div>
-                 <div ng-if="group.id != subid">
-                     {{group.name}}
-                 </div>
-                 
-
-                 
-
-
-
-
-
-
+                 <div ng-if="group.SubCategoryId != subid">
+                     {{group.SubcategoryName}}
+                 </div>      
              </button>
-
-
-
-         </ion-scroll>-->
-     </ion-header-bar>
-   
+         </ion-scroll>
+     </ion-header-bar> 
     <ion-content>
-     
-        <br />
-        <ion-scroll id="ionScrollRegion" direction="x">
-            <div id="content">
-
-                <div class="item sub selected" ng-if="group.id == subid" ng-repeat="rack in racks">{{rack.name}}</div>
-                <div class="item sub" ng-if="group.id != subid" ng-repeat="rack in racks">{{rack.name}}</div>
-
-            </div>
-       
-        </ion-scroll>
-        <div class="bar bar-header item-input-inset" ng-show="showSearch">
-
-            <input type="text" placeholder="Search Item" ng-model="search">
-        </div>
-        <div ng-repeat="rack in racks">
-            <div class="item item-divider"     >
-                {{rack.name}} 
-            </div>
-            <ion-item class="item-avatar-left products" ng-repeat="product in products()|filter:{rack_id: rack.id}|filter:search">
-
-                {{product.rack_id}}
-                <img ng-src="{{product.primary_image_url}}">
-                <div class="row">
-
-                    <div class="col">{{product.display_name }}</div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col">₹ {{product.total}}</div>
+            <ion-scroll id="ionScrollRegion" direction="x">
+                <div id="content">
+                    <button class="item sub selected"
+                            ng-click="filteraisle1(rack.SubsubCategoryid)"  
+                             ng-if="group.SubsubCategoryid == subid"
+                              ng-repeat="rack in racks">
+                        {{rack.SubsubcategoryName}}
+                    </button>
+                    <button class="item sub" 
+                            ng-click="filteraisle1(rack.SubsubCategoryid)"
+                            ng-if="group.SubsubCategoryid != subid"
+                            ng-repeat="rack in racks">
+                    {{rack.SubsubcategoryName}}
+                    </button>
                 </div>
+            </ion-scroll>
+            <div class="bar bar-header item-input-inset" ng-show="showSearch">
 
-
-                <div class="row">
-                    <div class="col">
-                        <h3 class="product-unit">MRP {{product.price}}  ₹  {{product.unit}}</h3>
-                        <h3 class="price_quantity ">
-                            ₹ {{product.price}} |10 {{product.Discount}} %
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <ul class="list-inline btn-click">
-                            <li class="circle-btn" ng-click="removeProduct(product)">
-                                -
-                            </li>
-                            <li class="show_quantity ng-binding">{{product.purchaseQuantity}}</li>
-                            <li class="circle-btn" ng-click="addToCart(product)">
-                                +
-                            </li>
-                        </ul>
-                    </div>
+                <input type="text" placeholder="Search Item" ng-model="search">
+            </div>
+            <div ng-repeat="rack in racks1">
+                <div class="item item-divider">
+                    {{rack.SubsubcategoryName}}
                 </div>
+                <ion-item class="item-avatar-left products" ng-repeat="product in rack.itemMaster" >
+
+                    {{product.ItemId}}
+                    <img ng-src="../img/departments/{{warehousefilter[$index].ItemId}}.jpg" style="width:100%;" />
+                    <img ng-repeat="product in products" ng-src="{{product.primary_image_url}}">
+                    <div class="row">
+
+                        <div class="col">{{product.itemname }}</div>
+                        <div class="col"></div>
+                        <div class="col"></div>
+                        <div class="col">₹ {{product.total}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="product-unit">MRP {{product.price}}  ₹  {{product.UnitName}}</h3>
+                            <h3 class="price_quantity ">
+                                ₹ {{product.price}} |{{product.VATTax}} %
+                            </h3>
+                        </div>
+                        <div class="col">
+                            <ul class="list-inline btn-click">
+                                <li class="circle-btn" ng-click="removeProduct(product)">
+                                    -
+                                </li>
+                                <li class="show_quantity ng-binding">{{product.purchaseQuantity}}</li>
+                                <li class="circle-btn" ng-click="addToCart(product)">
+                                    +
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
 
 
-            </ion-item>
-        </div>
+                </ion-item>
+            </div>
+
+    
+        
             <!--<ion-item class="item-avatar-left products" ng-repeat="product in products ">
-                <img ng-src="http://cartindore.herokuapp.com/assets/images/{{product.Image | filter: search.value}}">
-                <div class="row">
+            <img ng-src="http://cartindore.herokuapp.com/assets/images/{{product.Image | filter: search.value}}">
+            <div class="row">
 
-                    <div class="col">{{product.Description | filter: search.value}}</div>
-                    <div class="col"></div>
-                    <div class="col"></div>
-                    <div class="col">₹ {{product.total}}</div>
+                <div class="col">{{product.Description | filter: search.value}}</div>
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">₹ {{product.total}}</div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <h3 class="product-unit">{{product.unit}}</h3>
+                    <h3 class="price_quantity ">
+                        ₹ {{product.MRP}} |MRP {{product.MRP}}  ₹  | {{product.Discount}} %
+                    </h3>
                 </div>
-
-
-                <div class="row">
-                    <div class="col">
-                        <h3 class="product-unit">{{product.unit}}</h3>
-                        <h3 class="price_quantity ">
-                            ₹ {{product.MRP}} |MRP {{product.MRP}}  ₹  | {{product.Discount}} %
-                        </h3>
-                    </div>
-                    <div class="col">
-                        <ul class="list-inline btn-click">
-                            <li class="circle-btn" ng-click="decrementQuantity( product)">
-                                -
-                            </li>
-                            <li class="show_quantity ng-binding">{{product.qty}}</li>
-                            <li class="circle-btn" ng-click="incrementQuantity(product)" product="{&quot;description&quot;:&quot;Not available&quot;,&quot;price&quot;:71,&quot;mapping_id&quot;:145841,&quot;id&quot;:849,&quot;unit&quot;:&quot;500 gm&quot;,&quot;name&quot;:&quot;Pulses - Moong Dal (Skinned)&quot;,&quot;inventory_limit&quot;:10,&quot;large_image_url&quot;:null,&quot;seq_no&quot;:0,&quot;image_url&quot;:&quot;http://cdn.grofers.com/app/images/products/normal/pro_5421.jpg?1427453801&quot;,&quot;brand&quot;:&quot;Private Label&quot;,&quot;quantity&quot;:1}">
-                                +
-                            </li>
-                        </ul>
-                    </div>
+                <div class="col">
+                    <ul class="list-inline btn-click">
+                        <li class="circle-btn" ng-click="decrementQuantity( product)">
+                            -
+                        </li>
+                        <li class="show_quantity ng-binding">{{product.qty}}</li>
+                        <li class="circle-btn" ng-click="incrementQuantity(product)" product="{&quot;description&quot;:&quot;Not available&quot;,&quot;price&quot;:71,&quot;mapping_id&quot;:145841,&quot;id&quot;:849,&quot;unit&quot;:&quot;500 gm&quot;,&quot;name&quot;:&quot;Pulses - Moong Dal (Skinned)&quot;,&quot;inventory_limit&quot;:10,&quot;large_image_url&quot;:null,&quot;seq_no&quot;:0,&quot;image_url&quot;:&quot;http://cdn.grofers.com/app/images/products/normal/pro_5421.jpg?1427453801&quot;,&quot;brand&quot;:&quot;Private Label&quot;,&quot;quantity&quot;:1}">
+                            +
+                        </li>
+                    </ul>
                 </div>
+            </div>
 
 
-            </ion-item>-->
-        <!--</ion-list>-->
-        <!--<ion-gallery products='products'></ion-gallery>-->
-    </ion-content>
+        </ion-item>-->
+
+
+
+            <!--</ion-list>-->
+            <!--<ion-gallery products='products'></ion-gallery>-->
+
+    
+</ion-content>
     <ion-footer-bar class="bar-calm">
-
-
         <span class="badge badge-assertive">{{itemCount()}}</span>
         <button class='button icon ion-bag' ng-click='goToCart()'></button>
-
         <h1 class="title">Total: ${{total()}}</h1>
         <div class="buttons" ng-click='goToCart()'>
             <i class="ion-chevron-right" style="font-size:24px;"></i>
         </div>
     </ion-footer-bar>
 </ion-view>
+
