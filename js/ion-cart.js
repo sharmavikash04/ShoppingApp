@@ -30,8 +30,8 @@
             //return this.filterditems;
             
 
-            //return $http.get("https://parature.webfortis.com/shoppingcartapps/api/CategoryJson").then(function (results) {
-            return $http.get("http://localhost:26264/api/CategoryJson").then(function (results) {
+            return $http.get("http://103.231.44.202:808/api/CategoryJson").then(function (results) {
+           //return $http.get("http://localhost:26264/api/CategoryJson").then(function (results) {
                 this.departments = results.data;
 
                 this.warehousefiltereddepartment = _.filter(this.departments, function (department) {
@@ -146,8 +146,8 @@
 
         //This scope is for DisplayCategory
         this.getDepartments = function (warehouseid) {
-           // return $http.get("https://parature.webfortis.com/shoppingcartapps/api/CategoryJson").then(function (results) {
-            return $http.get("http://localhost:26264/api/CategoryJson").then(function (results) {
+            return $http.get("http://103.231.44.202:808/api/CategoryJson").then(function (results) {
+            //return $http.get("http://localhost:26264/api/CategoryJson").then(function (results) {
             
                 this.departments = results.data;          
                 this.warehousefiltereddepartment = _.filter(this.departments, function (department) {
@@ -188,11 +188,12 @@
         //}
 
 
+
         this.addToCart = function (product) {
             var productInCart = false;
             this.cartProducts.forEach(function (prod, index, prods) {
 
-                if (prod.id === product.id) {
+                if (prod.ItemId === product.ItemId) {
                     productInCart = prod;
                     console.log(prod);
                     return;
@@ -200,20 +201,21 @@
             });
 
             if (productInCart) {
-
+                console.log("productInCart")
                 this.addOneProduct(productInCart);
             } else {
+                console.log("productInCartelse")
                 product.purchaseQuantity = 0;
                 this.addOneProduct(product);
                 this.cartProducts.push(product);
             }
         };
-
+        
 
         this.removeProduct = function (product) {
             console.log("remove called");
             this.cartProducts.forEach(function (prod, i, prods) {
-                if (product.id === prod.id) {
+                if (product.ItemId === prod.ItemId) {
 
                     this.cartProducts.splice(i, 1);
                     this.updateTotal();
@@ -233,11 +235,13 @@
         };
 
         this.removeOneProduct = function (product) {
-            ++product.quantity;
-            --product.purchaseQuantity;
-            product.total = formatTotal(product.price * product.purchaseQuantity);
-            this.ItemCount -= 1;
-            this.updateTotal();
+            if (product.purchaseQuantity > 0) {
+                ++product.quantity;
+                --product.purchaseQuantity;
+                product.total = formatTotal(product.price * product.purchaseQuantity);
+                this.ItemCount -= 1;
+                this.updateTotal();
+            }
         };
 
         this.cartTotal = function () {
@@ -262,6 +266,17 @@
         }.bind(this);
 
         this.updateTotal();
+
+
+
+
+
+
+
+
+
+
+
 
         this.getProducts = function (callback) {
 
@@ -344,8 +359,8 @@
               //console.log("geolocationdata"+data);
             
              
-          //var url = "https://parature.webfortis.com/shoppingcartapps/api/signup";
-          var url = "http://localhost:26264/api/signup";
+          var url = "http://103.231.44.202:808/api/signup";
+          //var url = "http://localhost:26264/api/signup";
           return $http.post(url, data).then(function (results) {
               return results;
           });
@@ -841,6 +856,10 @@
         };
     }]);
 
+
+
+
+
     //ZIP INPUT
     app.directive('zipInput', ['$timeout', 'CheckoutValidation', '$templateCache', function ($timeout, CheckoutValidation, $templateCache) {
         var link = function (scope, element, attr) {
@@ -996,10 +1015,10 @@
     angular.module("ionicShop.templates", []).run(["$templateCache", function ($templateCache) {
         $templateCache.put("cart-footer.html", "<div class=\'title cart-footer\'>Checkout</div>");
         //$templateCache.put("cart-item.html", "<div ng-if=\'!emptyProducts\'>\n  <div class=\'card product-card\' ng-repeat=\'product in products track by $index\'>\n    <div class=\'item item-thumbnail-left product-item\'>\n      <img ng-src=\'{{product.primary_image_url}}\' class=\'product-image\' ion-product-image=\'product\'>\n      <h3 class=\'product-title\'>{{product.display_name}}</h3>\n      <p class=\'product-description\'>{{product.description}}</p>\n\n      <i class=\'icon ion-plus-round icon-plus-round\' mouse-down-up ng-click=\'addProduct(product)\'></i>\n         <span class=\'product-quantity\'>{{product.purchaseQuantity}}</span>\n      <i class=\'icon ion-minus-round icon-minus-round\' mouse-down-up ng-click=\'removeProduct(product)\'></i>\n\n      <span class=\'product-price\'>₹ {{product.total}}</span>\n    <span class=\'product-price\'>₹ {{product.price}}</span>\n</div>\n  </div>\n  <div>\n    <br><br><br><br>\n  </div>\n</div>\n\n<div class=\'empty-cart-div\' ng-if=\'emptyProducts\'>\n  <h3 class=\'empty-cart-header\'>Your bag is empty!</h3>\n  <i class=\'icon ion-bag empty-cart-icon\'></i>\n</div>");
-        $templateCache.put("cart-item.html", "<div ng-if=\'!emptyProducts\'>\n  <ion-item class=\'card product-card\' ng-repeat=\'product in products track by $index\'>   <div class=\'item-avatar-left products\'>      <img ng-src=\'{{product.primary_image_url}}\' >    <div class='row'>   <div class='col'>{{product.display_name }}</div>      <div class='col'></div>     <div class='col'></div>       <div class='col'>₹ {{product.total}}</div>  </div>   <div class='row'>                   <div class='col'>                       <h3 class='product-unit'>MRP {{product.price}}  ₹  {{product.unit}}</h3>                       <h3 class='price_quantity '>  ₹ {{product.price}} |10 {{product.Discount}} %      </h3>  </div><div class='col'> <ul class='list-inline btn-click'> <li class='circle-btn' ng-click='removeProduct(product)'> - </li><li class='show_quantity ng-binding'>{{product.purchaseQuantity}}</li>  <li class='circle-btn' ng-click='addProduct(product)'>    +    </li> </ul>  </div>   </div></ion-item> </div>  </div>\n\n<div class=\'empty-cart-div\' ng-if=\'emptyProducts\'>\n  <h3 class=\'empty-cart-header\'>Your bag is empty!</h3>\n  <i class=\'icon ion-bag empty-cart-icon\'></i>\n</div>");
+        $templateCache.put("cart-item.html", "<div ng-if=\'!emptyProducts\'>\n  <ion-item class=\'card product-card\' ng-repeat=\'product in products track by $index\'>   <div class=\'item-avatar-left products\'>      <img ng-src=\'{{product.primary_image_url}}\' >    <div class='row'>   <div class='col'>{{product.itemname }}</div>      <div class='col'></div>     <div class='col'></div>       <div class='col'>₹ {{product.total}}</div>  </div>   <div class='row'>                   <div class='col'>                       <h3 class='product-unit'>MRP {{product.price}}  ₹  {{product.unit}}</h3>                       <h3 class='price_quantity '>  ₹ {{product.price}} |10 {{product.Discount}} %      </h3>  </div><div class='col'> <ul class='list-inline btn-click'> <li class='circle-btn' ng-click='removeProduct(product)'> - </li><li class='show_quantity ng-binding'>{{product.purchaseQuantity}}</li>  <li class='circle-btn' ng-click='addProduct(product)'>    +    </li> </ul>  </div>   </div></ion-item> </div>  </div>\n\n<div class=\'empty-cart-div\' ng-if=\'emptyProducts\'>\n  <h3 class=\'empty-cart-header\'>Your bag is empty!</h3>\n  <i class=\'icon ion-bag empty-cart-icon\'></i>\n</div>");
         $templateCache.put("checkout-footer.html", "<div class=\'title purchase-footer\'>Pay</div>");
         $templateCache.put("checkout.html", "\n<span class=\'checkout-form-description\'>Please enter your credit card details:</span>\n\n<div class=\'list checkout-form\'>\n  <checkout-name ng-if=\'hasNameDir\'></checkout-name>\n  <checkout-card></checkout-card>\n  <checkout-address ng-if=\'hasAddressDir\'></checkout-address>\n  <checkout-email ng-if=\'hasEmailDir\'></checkout-email>\n</div>\n\n<h2 class=\'checkout-total\'>Total: ₹{{total}}</h2>\n");
-        $templateCache.put("gallery-item.html", "<div class=\'ion-gallery-content\'>\n  <div class=\'card gallery-card\' ng-repeat=\'product in products track by $index\'>\n    <div class=\'item gallery-item\'>\n      <div class=\'gallery-image-div\'>\n        <img ng-src=\'{{product.primary_image_url}}\' class=\'gallery-product-image\'>\n      </div>\n      <h3 class=\'gallery-product-title\'>{{product.display_name}}</h3>\n      <h3 class=\'gallery-product-price\'>₹{{product.price}} - {{product.size}}</h3>\n     <i class=\'icon ion-plus-round icon-plus-round\' mouse-down-up ng-click=\'addToCart(product)\'></i>\n         <span class=\'product-quantity\'>{{product.purchaseQuantity}}</span>\n      <i class=\'icon ion-minus-round icon-minus-round\' mouse-down-up ng-click=\'removeProduct(product)\'></i>\n\n           </div>\n    </div>\n  </div>\n</div>");
+        $templateCache.put("gallery-item.html", "<div class=\'ion-gallery-content\'>\n  <div class=\'card gallery-card\' ng-repeat=\'product in products track by $index\'>\n    <div class=\'item gallery-item\'>\n      <div class=\'gallery-image-div\'>\n        <img ng-src=\'{{product.primary_image_url}}\' class=\'gallery-product-image\'>\n      </div>\n      <h3 class=\'gallery-product-title\'>{{product.itemname}}</h3>\n      <h3 class=\'gallery-product-price\'>₹{{product.price}} - {{product.size}}</h3>\n     <i class=\'icon ion-plus-round icon-plus-round\' mouse-down-up ng-click=\'addToCart(product)\'></i>\n         <span class=\'product-quantity\'>{{product.purchaseQuantity}}</span>\n      <i class=\'icon ion-minus-round icon-minus-round\' mouse-down-up ng-click=\'removeProduct(product)\'></i>\n\n           </div>\n    </div>\n  </div>\n</div>");
         $templateCache.put("partials/address-line-one.html", "<label class=\'item item-input address-line-one\'>\n  <input type=\'text\' ng-model=\'checkout.addressLineOne\' placeholder=\'Address Line 1\'>\n</label>");
         $templateCache.put("partials/address-line-two.html", "<label class=\'item item-input address-line-two\'>\n  <input type=\'text\' ng-model=\'checkout.addressLineTwo\' placeholder=\'Address Line 2\'>\n</label>");
         $templateCache.put("partials/address.html", "<div class=\'item item-divider\'>Address: </div>\n<address-one-input></address-one-input>\n<address-two-input></address-two-input>\n<city-input></city-input>\n<state-input></state-input>\n<zip-input></zip-input>\n");

@@ -12,12 +12,20 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
     $scope.clickbuttonshow = true;
     $scope.btnupdate = false;
     $scope.showedit = function () {
-        $scope.autocomplete = false;
-        $scope.clickbuttonshow = false;
-        $scope.btnupdate = true;
+      
+        $window.location.href = ('#/app/location');
+
+        //$scope.autocomplete = false;
+        //$scope.clickbuttonshow = false;
+        //$scope.btnupdate = true;
 
     };
     $scope.ClientData = localStorageService.get('clientData');
+    //if ($scope.ClientData!=null)
+    //{
+    //    console.log("txtmob");
+    //    document.getElementById('txtmob').value = $scope.ClientData.Mobile;
+    //}
     $scope.updateAddress = function () {
         console.log("updateAddress is calling....")
         console.log($scope.ClientData);
@@ -315,6 +323,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
     console.log($scope.ClientData);
     var placeSearch, autocomplete;
     $scope.CustomerData = {};
+    $scope.showgetstarted = false;
     var componentForm = {
         street_number: 'short_name',
         route: 'long_name',
@@ -370,7 +379,7 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         }
         console.log("address");
         console.log(address);
-        localStorageService.remove('clientData');
+        //localStorageService.remove('clientData');
         var input = getsetService.Getdata();
         getsetService.Getdata(input);
         console.log("Mobile");
@@ -388,8 +397,11 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
             console.log("getgeo is start loading....");
             //console.log($scope.)
             $scope.dataforpost = results;
+           
             console.log("final result");
             console.log(results);
+            $scope.showgetstarted = true;
+            
             //$scope.piclocation = false;
             //$scope.SaveData = true;
 
@@ -420,8 +432,9 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
     }
     // [END region_geolocation]
     $scope.goforlocation = function () {
+        //Code here for check mobile is registored or not 
+        //if ($scope.CustomerData.Mobile == $scope.ClientData.Mobile)
         getsetService.Setdata($scope.CustomerData.Mobile);
-    
     
         if (getsetService.Getdata() != null) {
             $window.location.href = ('#/app/location');
@@ -458,8 +471,11 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
             $scope.dataforpost = results;
             console.log("final result");
             console.log(results);
+            $scope.showgetstarted = true;
             $scope.piclocation = false;
             $scope.SaveData = true;
+            document.getElementById('autocomplete').value = results.formatted_address;
+            console.log(document.getElementById('autocomplete').value);
 
         }, function (error) {
             $scope.piclocation = true;
@@ -501,7 +517,17 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
 
         var input=getsetService.Getdata();
         $scope.CustomerData.Address = $scope.dataforpost.formatted_address;
-        $scope.CustomerData.Mobile = input.Mobile;
+        $scope.ClientData = localStorageService.get('clientData');
+        if ($scope.ClientData.Mobile != null)
+        {
+            console.log("update");
+            $scope.CustomerData.Mobile = $scope.ClientData.Mobile;
+        }
+        else {
+            console.log("insert");
+            $scope.CustomerData.Mobile = input.Mobile;
+        }
+      
         if ($scope.CustomerData.GeoLocation == null) {
             $scope.CustomerData.GeoLocation = $scope.dataforpost.geometry.location.lat + "," + $scope.dataforpost.geometry.location.lng;
         }
@@ -509,9 +535,18 @@ angular.module('starter.controllers', ['ionic', 'ionicShop'])
         
         
         Customers.postCustomerData($scope.CustomerData).then(function (out) {
+            console.log("postcustomer data is calling......");
+
+            console.log(document.getElementById('autocomplete').value);
             localStorageService.set('clientData', { Mobile: $scope.CustomerData.Mobile, Address: $scope.CustomerData.Address, isAuth: true });
+            //$window.reload
+            console.log("txtmob");
+            document.getElementById('txtmob').value = $scope.CustomerData.Mobile;
+            document.getElementById('autocomplete').value = $scope.CustomerData.Address;
+            console.log(document.getElementById('txtmob').value);
             $window.location.href = ('#/app/home');
             console.log(out);
+           
         });
         
         
@@ -893,7 +928,9 @@ function ($scope, Products, stripeCheckout, $http, $timeout, $state, $stateParam
 function ($scope, Products, stripeCheckout, $http, $timeout, $state) {
     // PRODUCTS IN CART //
     $scope.cartProducts = Products.cartProducts;
-
+    $scope.doTheBack = function () {
+        window.history.back();
+    };
     // TO BE REMOVED
     $scope.total = function () {
         return Products.cartTotal();
